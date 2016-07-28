@@ -2,7 +2,10 @@
 
 namespace Zenapply\Viddler\Providers;
 
-class ServiceProvider extends ServiceProvider
+use Illuminate\Support\ServiceProvider as Provider;
+use Zenapply\Viddler\Viddler;
+
+class ServiceProvider extends Provider
 {
     public function register() {
         $this->mergeConfigFrom(__DIR__ . '/../../config/viddler.php', 'viddler');
