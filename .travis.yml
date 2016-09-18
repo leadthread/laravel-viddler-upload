@@ -11,8 +11,8 @@ env:
         - COMPOSER_FLAGS=""
 
 before_script:
-- sudo add-apt-repository ppa:jon-severinsson/ffmpeg -y
-- sudo apt-get update
+- echo 'deb http://ppa.launchpad.net/jon-severinsson/ffmpeg/ubuntu '"$(cat /etc/*-release | grep "DISTRIB_CODENAME=" | cut -d "=" -f2)"' main' | sudo tee -a /etc/apt/sources.list
+- sudo apt-get update -q
 - sudo apt-get -y -q install ffmpeg
 - travis_retry composer self-update
 - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
