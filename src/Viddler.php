@@ -6,6 +6,8 @@ use Illuminate\Http\UploadedFile;
 use Viddler_V2;
 use Storage;
 use Zenapply\Viddler\Models\Video;
+use Exception;
+use Zenapply\Viddler\Exceptions\IncorrectVideoTypeException;
 
 class Viddler {
 	protected $client;
@@ -15,15 +17,16 @@ class Viddler {
 	/**
 	 * Upload and store in database a new viddler video from a file
 	 */
-    public function upload(UploadedFile $file, $filename)
+    public function upload(UploadedFile $file, $title)
     {
         //Check file type
         $ok = $this->isMimeSupported($file->getMimeType());
 
         if($ok === true){
             //Store the file
+            $filename = $file->hashName();
             $this->saveVideoToNewDisk($file, $filename);
-            $video = $this->saveVideoToDatabase($file, $filename);
+            $video = $this->saveVideoToDatabase($file, $filename, $title);
             
             //Convert File
             $video = $video->start();
@@ -46,7 +49,7 @@ class Viddler {
      */
     public function status($id) 
     {
-    	return "complete";	
+    	throw new Exception("Not Implemented");	
     }
 
 	/**
@@ -73,18 +76,20 @@ class Viddler {
 	 * Saves the uploaded file to the waiting disk
 	 */
 	protected function saveVideoToNewDisk(UploadedFile $file, $filename) {
-		$disk = Storage::disk(config('viddler.storage.disks.new'));
+		$disk = Storage::disk(config('viddler.disk'));
 		$contents = file_get_contents($file->getRealPath());
-		$disk->put($filename, $contents);
+		$disk->put("new/".$filename, $contents);
 	}
 
 	/**
 	 * Saves the uploaded file to the waiting disk
 	 */
-	protected function saveVideoToDatabase(UploadedFile $file, $filename) {
+	protected function saveVideoToDatabase(UploadedFile $file, $filename, $title) {
 		$video = Video::create([
-			'disk' => config('viddler.storage.disks.new'),
+			'disk' => config('viddler.disk'),
+			'path' => 'new',
 			'filename' => $filename,
+			'title' => $title,
 			'status' => 'new',
 			'mime' => $file->getMimeType(),
 			'extension' => $file->extension(),

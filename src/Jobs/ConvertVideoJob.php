@@ -2,10 +2,13 @@
 
 namespace Zenapply\Viddler\Jobs;
 
-use Zenapply\Viddler\Models\Video;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Log;
+use Storage;
+use Zenapply\Viddler\Exceptions\VideoConversionFailedException;
+use Zenapply\Viddler\Models\Video;
+use File;
 
 class ConvertVideoJob
 {
@@ -21,6 +24,7 @@ class ConvertVideoJob
     public function __construct(Video $video)
     {
         $this->video = $video;
+        $this->map = config('viddler.convert.mimes');
     }
 
     /**
@@ -36,31 +40,49 @@ class ConvertVideoJob
             Log::info("Converting video #{$video->id} - NOT IMPLEMENTED YET");
 
             // Move to appropriate disk
-            $video->moveToDisk('converting');
+            $video->moveFileToDirectory('converting');
+            $video->save();
 
             // Check if conversion is needed
-            if($this->shouldConvert()) {
-                // //Fire Event
-                // $video->status = 'converting';
-                // $video->save();
+            if($this->shouldConvert($video)) {
 
-                // $exit;
-                // $output = [];
-                // $command = 'ffmpeg -i '.$video->directory.$video->filename.$video->extension.' -c copy '.$video->directory.$video->filename.'.mp4 2>&1';
-                // exec($command,$output,$exit);
-                // if($exit === 0){
-                //     //Delete the old video
-                //     Storage::disk('tmp')->delete($video->filename.$video->extension);
-                //     $video->mime = 'video/mp4';
-                //     $video->extension = '.mp4';
-                //     $video->status = 'converted';
-                //     $video->save();
-                // }
+                switch($this->map[$video->mime]) {
+                case "video/mp4":
+                    $this->convertToMp4($video);
+                    break;
+                default:
+                    throw new VideoConversionFailedException($this->map[$video->mime] . " is not a supported output type.");
+                    break;
+                }
             }
         }
     }
 
-    protected function shouldConvert() {
-        return array_key_exists($this->video->mime, config('viddler.convert.mimes'));
+    protected function convertToMp4(Video $video) {
+        $disk = Storage::disk($video->disk);
+        $pathDisk = $video->getPathToDisk();
+        $pathOld = $video->getPathOnDisk();
+        $pathNew = explode(".", $pathOld)[0].".mp4";
+        $exit;
+        $output = [];
+        $command = 'ffmpeg -i '.$pathDisk.$pathOld.' -c copy '.$pathDisk.$pathNew.' 2>&1';
+        exec($command,$output,$exit);
+        if($exit === 0){
+            $parts = explode('/', $pathNew);
+            $disk->delete($pathOld);
+            $video->mime = File::mimeType($pathDisk.$pathNew);
+            $video->extension = File::extension($pathDisk.$pathNew);
+            $video->filename = end($parts);
+            $video->moveFileToDirectory('converted');
+            $video->save();
+        } else {
+            throw new VideoConversionFailedException(implode(PHP_EOL, $output));
+        }
+
+        return $video;
+    }
+
+    protected function shouldConvert(Video $video) {
+        return array_key_exists($video->mime, $this->map);
     }
 }

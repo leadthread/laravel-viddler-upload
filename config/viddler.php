@@ -10,16 +10,7 @@ return [
 
     "table" => "videos",
 
-    "storage" => [
-        "disk" => [
-            'new'        => "default",
-            'converting' => "default",
-            'uploading'  => "default",
-            'encoding'   => "default",
-            'finished'   => "default",
-            'error'      => "default",
-        ],
-    ],
+    "disk" => "default",
 
     "convert" => [
         "enabled" => true,

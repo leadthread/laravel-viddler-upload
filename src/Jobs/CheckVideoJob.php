@@ -24,10 +24,10 @@ class CheckVideoJob implements ShouldQueue
     	$video = $this->video;
     	if ($video->isNotFinished()) {
             Log::info("Checking video #{$video->id} - NOT IMPLEMENTED YET");
-    		$video->moveToDisk('encoding');
+    		$video->moveFileToDirectory('encoding');
 
     		// Finish up!
-    		$video->moveToDisk('finished');
+    		$video->finish();
     	}
     }
 }

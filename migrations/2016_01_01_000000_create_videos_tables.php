@@ -19,6 +19,7 @@ class CreateVideosTables extends Migration
             $table->string('path')->default('/');
             $table->string('disk');
             $table->string('filename');
+            $table->string('title');
             $table->string('extension');
             $table->string('status')->default('new');
             $table->timestamps();

@@ -80,16 +80,7 @@ class TestCase extends Orchestra
 
             "table" => "videos",
 
-            "storage" => [
-                "disks" => [
-                    'new'        => "new",
-                    'converting' => "converting",
-                    'uploading'  => "uploading",
-                    'encoding'   => "encoding",
-                    'finished'   => "finished",
-                    'error'      => "error",
-                ],
-            ],
+            "disk" => "default",
 
             "convert" => [
                 "enabled" => true,
@@ -126,52 +117,30 @@ class TestCase extends Orchestra
         ]);
 
         $app['config']->set('filesystems.disks', [
-            'new' => [
+            'default' => [
                 'driver' => 'local',
-                'root'   => __DIR__.'/tmp/new',
-            ],
-            'converting' => [
-                'driver' => 'local',
-                'root'   => __DIR__.'/tmp/converting',
-            ],
-            'uploading' => [
-                'driver' => 'local',
-                'root'   => __DIR__.'/tmp/uploading',
-            ],
-            'encoding' => [
-                'driver' => 'local',
-                'root'   => __DIR__.'/tmp/encoding',
-            ],
-            'finished' => [
-                'driver' => 'local',
-                'root'   => __DIR__.'/tmp/finished',
-            ],
-            'error' => [
-                'driver' => 'local',
-                'root'   => __DIR__.'/tmp/error',
+                'root'   => __DIR__.'/tmp',
             ],
         ]);
     }
 
     protected function flushTestStorageDisks () {
-        foreach (config('viddler.storage.disks') as $disk) {
-            $disk = Storage::disk($disk);
+        $disk = Storage::disk(config('viddler.disk'));
 
-            //Delete files on disk
-            $files = $disk->files();
-            foreach ($files as $f) {
-                if($f !== '.gitignore' && $f !== '.gitkeep'){
-                    $disk->delete($f);
-                }
+        //Delete files on disk
+        $files = $disk->files();
+        foreach ($files as $f) {
+            if($f !== '.gitignore' && $f !== '.gitkeep'){
+                $disk->delete($f);
             }
-
-            //Delete directories on disk
-            $directories = $disk->directories();
-            foreach ($directories as $dir) {
-                $disk->deleteDirectory($dir);
-            }
-
         }
+
+        //Delete directories on disk
+        $directories = $disk->directories();
+        foreach ($directories as $dir) {
+            $disk->deleteDirectory($dir);
+        }
+
     }
 
     /**

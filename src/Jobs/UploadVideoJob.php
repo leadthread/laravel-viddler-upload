@@ -24,7 +24,7 @@ class UploadVideoJob implements ShouldQueue
     	$video = $this->video;
     	if ($video->isNotFinished()) {
             Log::info("Uploading video #{$video->id} - NOT IMPLEMENTED YET");
-    		$video->moveToDisk('uploading');
+    		$video->moveFileToDirectory('uploading');
     	}
     }
 }

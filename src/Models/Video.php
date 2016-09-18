@@ -22,20 +22,17 @@ class Video extends Model
         parent::__construct($attributes);
     }
 
-    public function moveToDisk($step)
+    public function moveFileToDirectory($dir)
     {
     	if ($this->isNotFinished()) {
     		$currentDisk = Storage::disk($this->disk);
-    		$destinationDiskName = config("viddler.storage.disks.{$step}");
-    		$destinationDisk = Storage::disk($destinationDiskName);
 
     		// Do the move
-    		$file = $currentDisk->get($this->filename);
-    		$destinationDisk->put($this->filename, $file);
-    		$currentDisk->delete($this->filename);
+    		$file = $currentDisk->move($this->getPathOnDisk(), "{$dir}/{$this->filename}");
 
     		//Update the Model
-    		$this->disk = $destinationDiskName;
+    		$this->path = $dir;
+    		$this->status = $dir;
     		$this->save();
     	}
 
@@ -58,6 +55,16 @@ class Video extends Model
 		return $this;
 	}
 
+	public function finish()
+	{
+		if ($this->isNotFinished()) {
+			$this->moveFileToDirectory('finished');
+			$this->status = "finished";
+			$this->save();
+		}
+		return $this;
+	}
+
 	public function convert()
 	{
 		dispatch(new ConvertVideoJob($this));
@@ -74,5 +81,17 @@ class Video extends Model
 	{
 		dispatch(new CheckVideoJob($this));
 		return $this;
+	}
+
+	public function getPathOnDisk() {
+		return "{$this->path}/{$this->filename}";
+	}
+
+	public function getFullPath() {
+		return $this->getPathToDisk() . $this->getPathOnDisk();
+	}
+
+	public function getPathToDisk() {
+		return Storage::disk($this->disk)->getDriver()->getAdapter()->getPathPrefix();
 	}
 }
