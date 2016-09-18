@@ -11,7 +11,7 @@ env:
         - COMPOSER_FLAGS=""
 
 before_script:
-- sudo aptitude -y -q install ffmpeg
+- sudo apt-get update && sudo apt-get -y -q install ffmpeg
 - travis_retry composer self-update
 - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
