@@ -11,7 +11,7 @@ env:
         - COMPOSER_FLAGS=""
 
 before_script:
-- echo 'deb http://ppa.launchpad.net/jon-severinsson/ffmpeg/ubuntu '"$(cat /etc/*-release | grep "DISTRIB_CODENAME=" | cut -d "=" -f2)"' main' | sudo tee -a /etc/apt/sources.list
+- echo 'deb https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media '"$(cat /etc/*-release | grep "DISTRIB_CODENAME=" | cut -d "=" -f2)"' main' | sudo tee -a /etc/apt/sources.list
 - sudo apt-get update -q
 - sudo apt-get -y -q install ffmpeg
 - travis_retry composer self-update
