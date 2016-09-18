@@ -7,8 +7,6 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/56f3252c35630e0029db0187/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f3252c35630e0029db0187)
 [![Total Downloads](https://img.shields.io/packagist/dt/zenapply/laravel-viddler.svg?style=flat-square)](https://packagist.org/packages/zenapply/laravel-viddler)
 
-
-
 ## Installation
 
 Install via [composer](https://getcomposer.org/) - In the terminal:
@@ -18,4 +16,3 @@ composer require zenapply/laravel-viddler
 
 ## Contributing
 Contributions are always welcome!
-If you would like to have another service added to the list please request it by opening up an issue or sending a pull request

@@ -27,12 +27,15 @@
         }
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
+        "illuminate/support": "^5.2",
         "viddler/phpviddler": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8|^5.0",
-        "orchestra/testbench": "^3.2"
+        "orchestra/testbench": "^3.2",
+        "doctrine/dbal": "~2.3"
     },
     "suggest": {
     }
