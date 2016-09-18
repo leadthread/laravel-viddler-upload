@@ -30,6 +30,8 @@
     "prefer-stable": true,
     "require": {
         "illuminate/support": "^5.2.31",
+        "illuminate/filesystem": "^5.2.31",
+        "illuminate/http": "^5.2.31",
         "league/flysystem": "^1.0.27",
         "viddler/phpviddler": "dev-master"
     },
