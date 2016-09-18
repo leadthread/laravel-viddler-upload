@@ -118,6 +118,7 @@ class TestCase extends Orchestra
             ],
         ]);
 
+        $app['config']->set('app.key', 'base64:3NS+I8Q6jJ7Ys0Bzx86QuflbCC6uChhYgOJzdYv8Iek=');
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
