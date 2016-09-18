@@ -2,19 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Company;
-
-use App\Video;
-use App\Library\Viddler\ViddlerV2;
 use App\Events\VideoError;
+use App\Library\Viddler\ViddlerV2;
+use App\Video;
+use Carbon\Carbon;
+use Config;
+use Exception;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Config;
 use Log;
 use Notify;
-use Carbon\Carbon;
-use Exception;
 
 class VideoCheckEncoding extends Job implements SelfHandling, ShouldQueue
 {
@@ -133,6 +131,9 @@ class VideoCheckEncoding extends Job implements SelfHandling, ShouldQueue
         return $total/$count;
     }
 
+    /**
+     * @param string $isStatus
+     */
     private function isStatus($files,$isStatus){
         $ans=null;
         foreach ($files as $file) {

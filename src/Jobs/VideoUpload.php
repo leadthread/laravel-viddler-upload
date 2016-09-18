@@ -2,19 +2,18 @@
 
 namespace App\Jobs;
 
-use App\Video;
 use App\Company;
-use App\Library\Viddler\ViddlerV2;
-use App\Jobs\VideoCheckEncoding;
 use App\Events\VideoError;
+use App\Jobs\VideoCheckEncoding;
+use App\Library\Viddler\ViddlerV2;
+use App\Video;
+use Config;
+use Exception;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Config;
-use Storage;
 use Log;
-use Exception;
-use Notify;
+use Storage;
 
 class VideoUpload extends Job implements SelfHandling, ShouldQueue
 {

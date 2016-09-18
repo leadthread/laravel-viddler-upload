@@ -2,11 +2,11 @@
 
 namespace Zenapply\Viddler\Jobs;
 
-use Zenapply\Viddler\Models\Video;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Log;
+use Zenapply\Viddler\Models\Video;
 
 class CheckVideoJob implements ShouldQueue
 {

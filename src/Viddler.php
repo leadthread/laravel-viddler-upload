@@ -2,12 +2,11 @@
 
 namespace Zenapply\Viddler;
 
-use Illuminate\Http\UploadedFile;
-use Viddler_V2;
-use Storage;
-use Zenapply\Viddler\Models\Video;
 use Exception;
+use Illuminate\Http\UploadedFile;
+use Storage;
 use Zenapply\Viddler\Exceptions\IncorrectVideoTypeException;
+use Zenapply\Viddler\Models\Video;
 
 class Viddler {
 	protected $client;
@@ -74,6 +73,7 @@ class Viddler {
 
 	/**
 	 * Saves the uploaded file to the waiting disk
+	 * @param string $filename
 	 */
 	protected function saveVideoToNewDisk(UploadedFile $file, $filename) {
 		$disk = Storage::disk(config('viddler.disk'));
@@ -83,6 +83,7 @@ class Viddler {
 
 	/**
 	 * Saves the uploaded file to the waiting disk
+	 * @param string $filename
 	 */
 	protected function saveVideoToDatabase(UploadedFile $file, $filename, $title) {
 		$video = Video::create([
@@ -100,6 +101,7 @@ class Viddler {
 
 	/**
 	 * Check if a mime is in the supported list
+	 * @param string|null $mime
 	 */
 	protected function isMimeSupported($mime) {
 		$supported = config('viddler.mimes');
