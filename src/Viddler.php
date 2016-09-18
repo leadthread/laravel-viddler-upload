@@ -14,9 +14,9 @@ class Viddler {
 	protected $record_token;
 
 	/**
-	 * Upload and store in database a new viddler video from a file
+	 * Convert, Upload and Store in Database from a video file
 	 */
-    public function upload(UploadedFile $file, $title)
+    public function create(UploadedFile $file, $title)
     {
         //Check file type
         $ok = $this->isMimeSupported($file->getMimeType());
