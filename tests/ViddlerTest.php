@@ -33,7 +33,7 @@ class ViddlerTest extends TestCase
     {
         $obj = new Viddler();
         $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
-        $model = $obj->upload($file, "Test");
+        $model = $obj->create($file, "Test");
         $model = Video::find($model->id);
 
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/finished/'.$model->filename));
@@ -47,7 +47,7 @@ class ViddlerTest extends TestCase
         $title = "This is a test video";
         $obj = new Viddler();
         $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt");
-        $model = $obj->upload($file, $title);
+        $model = $obj->create($file, $title);
     }
 
     public function testUploadingAVideo()
@@ -55,7 +55,7 @@ class ViddlerTest extends TestCase
         $title = "This is a test video";
         $obj = new Viddler();
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
-        $model = $obj->upload($file, $title);
+        $model = $obj->create($file, $title);
         $model = Video::find($model->id);
 
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/finished/'.$model->filename));

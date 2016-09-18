@@ -14,5 +14,20 @@ Install via [composer](https://getcomposer.org/) - In the terminal:
 composer require zenapply/laravel-viddler
 ```
 
+## Usage
+```php
+function upload(Request $request)
+{
+	$file = $request->file('file');
+	$name = "My Video Title";
+
+	/*
+	 * Convert, Upload, and Saves to Database
+	 * Returns an Eloquent Model
+	 */
+	$model = Viddler::create($file, $name);
+}
+```
+
 ## Contributing
 Contributions are always welcome!
