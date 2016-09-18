@@ -25,7 +25,6 @@ class Video extends Model
     public function moveToDisk($step)
     {
     	if ($this->isNotFinished()) {
-    		echo $this->disk.PHP_EOL;
     		$currentDisk = Storage::disk($this->disk);
     		$destinationDiskName = config("viddler.storage.disks.{$step}");
     		$destinationDisk = Storage::disk($destinationDiskName);

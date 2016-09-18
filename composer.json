@@ -29,7 +29,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "illuminate/support": "^5.2",
+        "illuminate/support": "^5.2.31",
         "viddler/phpviddler": "dev-master"
     },
     "require-dev": {
