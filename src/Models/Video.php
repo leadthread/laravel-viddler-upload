@@ -3,11 +3,11 @@
 namespace Zenapply\Viddler\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 use Zenapply\Viddler\Jobs\CheckVideoJob;
 use Zenapply\Viddler\Jobs\ConvertVideoJob;
 use Zenapply\Viddler\Jobs\ProcessVideoJob;
 use Zenapply\Viddler\Jobs\UploadVideoJob;
-use Storage;
 
 class Video extends Model
 {
@@ -22,6 +22,9 @@ class Video extends Model
         parent::__construct($attributes);
     }
 
+    /**
+     * @param string $dir
+     */
     public function moveFileToDirectory($dir)
     {
     	if ($this->isNotFinished()) {

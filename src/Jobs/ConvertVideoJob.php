@@ -2,13 +2,13 @@
 
 namespace Zenapply\Viddler\Jobs;
 
+use File;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Log;
 use Storage;
 use Zenapply\Viddler\Exceptions\VideoConversionFailedException;
 use Zenapply\Viddler\Models\Video;
-use File;
 
 class ConvertVideoJob
 {
