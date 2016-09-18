@@ -13,10 +13,11 @@ env:
         - COMPOSER_FLAGS=""
 
 before_script:
-- sudo apt-get update -q
-- sudo apt-get -y -q install ffmpeg
-- travis_retry composer self-update
-- travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
+  - sudo add-apt-repository ppa:mc3man/trusty-media -y
+  - sudo apt-get update -q
+  - sudo apt-get -y -q install ffmpeg
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
 
 script:
   - vendor/bin/phpunit
