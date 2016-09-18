@@ -30,6 +30,7 @@
     "prefer-stable": true,
     "require": {
         "illuminate/support": "^5.2.31",
+        "illuminate/filesystem": "^5.2.31",
         "viddler/phpviddler": "dev-master"
     },
     "require-dev": {
