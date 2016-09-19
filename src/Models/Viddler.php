@@ -10,8 +10,8 @@ class Viddler extends Model
 {
 	protected $guarded = ['id'];
 	protected $table;
-	public $file;
-	public $client;
+	protected $client;
+    public $file;
 
 	public function __construct(array $attributes = [])
     {
@@ -21,7 +21,8 @@ class Viddler extends Model
         parent::__construct($attributes);
 
         $this->file = new VideoFile($this);
-        $this->client = new ViddlerClient();
+
+        $this->client = $this->getClient();
     }
 
     public function convert()
@@ -55,5 +56,18 @@ class Viddler extends Model
     public function isNotFinished()
     {
     	return !$this->isFinished();
+    }
+
+    public function setClient(ViddlerClient $client)
+    {
+        $this->client = $client;
+    }
+
+    public function getClient()
+    {
+        if (empty($this->client)) {
+            $this->client = new ViddlerClient();
+        }
+        return $this->client;
     }
 }

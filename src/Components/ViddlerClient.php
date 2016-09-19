@@ -3,7 +3,7 @@
 namespace Zenapply\Viddler\Components;
 
 use Zenapply\Viddler\Models\Viddler;
-use Zenapply\Viddler\Exceptions\ViddlerApiException;
+use Zenapply\Viddler\Exceptions\ViddlerException;
 use Zenapply\Viddler\Exceptions\ViddlerNotFoundException;
 use Viddler_V2;
 
@@ -36,11 +36,11 @@ class ViddlerClient
 		curl_setopt($ch, CURLOPT_TIMEOUT, 0);
 		curl_setopt($ch, CURLOPT_POST, TRUE);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-		$response     = curl_exec($ch);
-		$info         = curl_getinfo($ch);
-		$header_size  = $info['header_size'];
-		$header       = substr($response, 0, $header_size);
-		$result       = unserialize(substr($response, $header_size));
+		$response    = curl_exec($ch);
+		$info        = curl_getinfo($ch);
+		$header_size = $info['header_size'];
+		$header      = substr($response, 0, $header_size);
+		$result      = unserialize(substr($response, $header_size));
 		curl_close($ch);
 
 		return $result;
@@ -62,12 +62,12 @@ class ViddlerClient
 
 		//Prepare the data!
 		$postFields = array();
-		$postFields['title'] = $model->title;
-		$postFields['view_perm'] = "embed";
+		$postFields['callback'] = $model->callback;
 		$postFields['description'] = "";
 		$postFields['tags'] = "";
-		$postFields['callback'] = '';
+		$postFields['title'] = $model->title;
 		$postFields['uploadtoken'] = $token;
+		$postFields['view_perm'] = "embed";
 		$postFields['file'] = curl_file_create($path, $model->mime);
 		
 		//Send it!
@@ -82,11 +82,6 @@ class ViddlerClient
         $model->updateStatusTo('encoding');
 
 		return $model;
-	}
-
-	public function check(Viddler $model)
-	{
-
 	}
 
 	/**
@@ -135,9 +130,17 @@ class ViddlerClient
 	protected function checkResponseForErrors($response) {
 		if(isset($response["error"])){
 			$msg = [];
-			$msg[] = "Viddler Error Code: ".$response["error"]["code"];
-			$msg[] = $response["error"]["description"];
-			$msg[] = $response["error"]["details"];
+
+			$msg[] = "Viddler Error";
+			if (!empty($response["error"]["code"])) {
+				$msg[] = "Code: ".$response["error"]["code"];
+			}
+			if (!empty($response["error"]["description"])) {
+				$msg[] = "Description: ".$response["error"]["description"];
+			}
+			if (!empty($response["error"]["details"])) {
+				$msg[] = "Details: ".$response["error"]["details"];
+			}
 
 			$msg = implode(" | ", $msg);
 

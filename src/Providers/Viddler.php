@@ -3,7 +3,7 @@
 namespace Zenapply\Viddler\Providers;
 
 use Illuminate\Support\ServiceProvider as Provider;
-use Zenapply\Viddler\Viddler;
+use Zenapply\Viddler\Service;
 
 class Viddler extends Provider
 {
@@ -11,7 +11,7 @@ class Viddler extends Provider
         $this->mergeConfigFrom(__DIR__ . '/../../config/viddler.php', 'viddler');
 
         $this->app->singleton('viddler', function() {
-            return new Viddler;
+            return new Service;
         });
     }
 

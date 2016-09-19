@@ -6,6 +6,7 @@ use Zenapply\Viddler\Models\Viddler;
 use Zenapply\Viddler\Service;
 use Viddler as ViddlerFacade;
 use Illuminate\Http\UploadedFile;
+use Zenapply\Viddler\Tests\Mocks\ViddlerClientMock;
 use Zenapply\Viddler\Exceptions\IncorrectVideoTypeException;
 
 class ViddlerTest extends TestCase
@@ -33,11 +34,11 @@ class ViddlerTest extends TestCase
     {
         $title = "This is a test video";
         $callback = "https://mydomain.com/video/callback";
-        $service = new Service();
+        $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
         $model = $service->create($file, $title, $callback);
         $model = Viddler::find($model->id);
-
+        
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
         $this->assertEquals($title, $model->title);
@@ -48,7 +49,7 @@ class ViddlerTest extends TestCase
     {
         $title = "This is a test video";
         $callback = "https://mydomain.com/video/callback";
-        $service = new Service();
+        $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
         $model = $service->create($file, $title, $callback);
         $model = Viddler::find($model->id);
@@ -64,8 +65,18 @@ class ViddlerTest extends TestCase
         $this->setExpectedException(IncorrectVideoTypeException::class);
         $title = "This is a test video";
         $callback = "https://mydomain.com/video/callback";
-        $service = new Service();
+        $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt");
         $model = $service->create($file, $title, $callback);
+    }
+
+    protected function getServiceWithMockedClient()
+    {
+        $client = new ViddlerClientMock();
+
+        $service = new Service();
+        $service->setClient($client);
+
+        return $service;
     }
 }

@@ -25,7 +25,7 @@ class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        return ['Zenapply\Viddler\Providers\ServiceProvider'];
+        return ['Zenapply\Viddler\Providers\Viddler'];
     }
 
     /**
@@ -73,9 +73,9 @@ class TestCase extends Orchestra
     {
         $app['config']->set('viddler', [
             "auth" => [
-                "key" => "16xmhpzh76la11jhc2k3",
-                "user" => "StudentGenius",
-                "pass" => "SG!R0ck$",
+                "key" => "key",
+                "user" => "user",
+                "pass" => "pass",
             ],
 
             "table" => "viddler",
