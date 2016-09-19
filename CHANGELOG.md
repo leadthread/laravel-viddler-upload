@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 1.0.2
+- Fixed migrations not publishing
+
 ### 1.0.1
 - Updated to use zenapply/php-viddler instead of viddler/phpviddler
 
