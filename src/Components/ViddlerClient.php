@@ -1,10 +1,10 @@
 <?php
 
-namespace Zenapply\Viddler\Components;
+namespace Zenapply\Viddler\Upload\Components;
 
-use Zenapply\Viddler\Models\Viddler;
-use Zenapply\Viddler\Exceptions\ViddlerException;
-use Zenapply\Viddler\Exceptions\ViddlerNotFoundException;
+use Zenapply\Viddler\Upload\Models\Viddler;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerException;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerNotFoundException;
 use Viddler_V2;
 
 class ViddlerClient

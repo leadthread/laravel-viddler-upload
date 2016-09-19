@@ -1,10 +1,10 @@
 <?php
 
-namespace Zenapply\Viddler\Models;
+namespace Zenapply\Viddler\Upload\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Zenapply\Viddler\Components\VideoFile;
-use Zenapply\Viddler\Components\ViddlerClient;
+use Zenapply\Viddler\Upload\Components\VideoFile;
+use Zenapply\Viddler\Upload\Components\ViddlerClient;
 
 /**
   * @property boolean $uploaded

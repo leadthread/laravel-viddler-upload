@@ -1,9 +1,9 @@
 <?php
 
-namespace Zenapply\Viddler\Components;
+namespace Zenapply\Viddler\Upload\Components;
 
-use Zenapply\Viddler\Exceptions\VideoConversionFailedException;
-use Zenapply\Viddler\Models\Viddler;
+use Zenapply\Viddler\Upload\Exceptions\VideoConversionFailedException;
+use Zenapply\Viddler\Upload\Models\Viddler;
 use Storage;
 use File;
 

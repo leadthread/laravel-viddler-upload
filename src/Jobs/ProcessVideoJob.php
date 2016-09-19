@@ -1,12 +1,12 @@
 <?php
 
-namespace Zenapply\Viddler\Jobs;
+namespace Zenapply\Viddler\Upload\Jobs;
 
-use Zenapply\Viddler\Models\Viddler;
+use Zenapply\Viddler\Upload\Models\Viddler;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
-use Zenapply\Viddler\Components\ViddlerClient;
+use Zenapply\Viddler\Upload\Components\ViddlerClient;
 
 class ProcessVideoJob implements ShouldQueue
 {

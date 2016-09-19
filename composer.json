@@ -18,13 +18,13 @@
     "license": "MIT",  
     "autoload":{
         "psr-4":{
-            "Zenapply\\Viddler\\":"src/"
+            "Zenapply\\Viddler\\Upload\\":"src/"
         },
         "files": ["vendor/viddler/phpviddler/phpviddler.php"]
     },
     "autoload-dev": {
         "psr-4": {
-            "Zenapply\\Viddler\\Tests\\": "tests/"
+            "Zenapply\\Viddler\\Upload\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

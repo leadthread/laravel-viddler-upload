@@ -1,13 +1,13 @@
 <?php
 
-namespace Zenapply\Viddler\Tests;
+namespace Zenapply\Viddler\Upload\Tests;
 
-use Zenapply\Viddler\Models\Viddler;
-use Zenapply\Viddler\Service;
+use Zenapply\Viddler\Upload\Models\Viddler;
+use Zenapply\Viddler\Upload\Service;
 use Viddler as ViddlerFacade;
 use Illuminate\Http\UploadedFile;
-use Zenapply\Viddler\Tests\Mocks\ViddlerClientMock;
-use Zenapply\Viddler\Exceptions\IncorrectVideoTypeException;
+use Zenapply\Viddler\Upload\Tests\Mocks\ViddlerClientMock;
+use Zenapply\Viddler\Upload\Exceptions\IncorrectVideoTypeException;
 
 class ViddlerTest extends TestCase
 {

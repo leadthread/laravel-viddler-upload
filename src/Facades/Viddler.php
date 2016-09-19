@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenapply\Viddler\Facades;
+namespace Zenapply\Viddler\Upload\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

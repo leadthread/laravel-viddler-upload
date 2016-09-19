@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenapply\Viddler\Exceptions;
+namespace Zenapply\Viddler\Upload\Exceptions;
 
 class ViddlerException extends \Exception
 {
