@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 1.0.3
+- Fixed migrations not publishing again
+
 ### 1.0.2
 - Fixed migrations not publishing
 
