@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Zenapply\Viddler\Components\VideoFile;
 use Zenapply\Viddler\Components\ViddlerClient;
 
+/**
+  * @property boolean $uploaded
+  * @property string  $disk
+  * @property string  $extension
+  * @property string  $filename
+  * @property string  $mime
+  * @property string  $path
+  * @property string  $status
+  * @property string  $title
+  * @property string  $viddler_id
+  */
 class Viddler extends Model
 {
 	protected $guarded = ['id'];

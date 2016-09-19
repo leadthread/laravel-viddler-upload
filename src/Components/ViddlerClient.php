@@ -39,7 +39,7 @@ class ViddlerClient
 		$response    = curl_exec($ch);
 		$info        = curl_getinfo($ch);
 		$header_size = $info['header_size'];
-		$header      = substr($response, 0, $header_size);
+		// $header      = substr($response, 0, $header_size);
 		$result      = unserialize(substr($response, $header_size));
 		curl_close($ch);
 
@@ -147,10 +147,8 @@ class ViddlerClient
 			switch($response["error"]["code"]){
 			case "100":
 				throw new ViddlerNotFoundException($msg);
-				break;
 			default:
 				throw new ViddlerException($msg);
-				break;
 			}
 		}
 
