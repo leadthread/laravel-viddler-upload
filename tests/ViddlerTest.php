@@ -2,8 +2,8 @@
 
 namespace Zenapply\Viddler\Tests;
 
-use Zenapply\Viddler\Models\Video;
-use Zenapply\Viddler\Viddler;
+use Zenapply\Viddler\Models\Viddler;
+use Zenapply\Viddler\Service;
 use Viddler as ViddlerFacade;
 use Illuminate\Http\UploadedFile;
 use Zenapply\Viddler\Exceptions\IncorrectVideoTypeException;
@@ -25,41 +25,39 @@ class ViddlerTest extends TestCase
 
     public function testItCreatesAnInstanceOfViddler()
     {
-        $obj = new Viddler();
-        $this->assertInstanceOf(Viddler::class,$obj);
+        $service = new Service();
+        $this->assertInstanceOf(Service::class,$service);
     }
 
     public function testConvertingMovToMp4()
     {
-        $obj = new Viddler();
+        $service = new Service();
         $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
-        $model = $obj->create($file, "Test");
-        $model = Video::find($model->id);
+        $model = $service->create($file, "Test");
+        $model = Viddler::find($model->id);
 
-        $this->assertEquals(true, file_exists(__DIR__.'/tmp/finished/'.$model->filename));
+        $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
-        $this->assertEquals(true, $model->isFinished());
     }
 
     public function testItFailsWhenUploadingANonVideoFile()
     {
         $this->setExpectedException(IncorrectVideoTypeException::class);
         $title = "This is a test video";
-        $obj = new Viddler();
+        $service = new Service();
         $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt");
-        $model = $obj->create($file, $title);
+        $model = $service->create($file, $title);
     }
 
     public function testUploadingAVideo()
     {
         $title = "This is a test video";
-        $obj = new Viddler();
+        $service = new Service();
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
-        $model = $obj->create($file, $title);
-        $model = Video::find($model->id);
+        $model = $service->create($file, $title);
+        $model = Viddler::find($model->id);
 
-        $this->assertEquals(true, file_exists(__DIR__.'/tmp/finished/'.$model->filename));
+        $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals($title, $model->title);
-        $this->assertEquals(true, $model->isFinished());
     }
 }

@@ -8,20 +8,20 @@ return [
         "pass" => env("VIDDLER_PASS"),
     ],
 
-    "table" => "videos",
+    "table" => "viddler",
 
     "disk" => "default",
 
     "convert" => [
         "enabled" => true,
 
-        "mimes" => [
+        "instructions" => [
             "video/quicktime" => "video/mp4",
             "application/octet-stream" => "video/mp4"
         ]
     ],
 
-    "mimes" => [
+    "supported" => [
         "video/x-msvideo",
         "video/mp4",
         "video/x-m4v",

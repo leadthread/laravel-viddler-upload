@@ -78,20 +78,20 @@ class TestCase extends Orchestra
                 "pass" => "VIDDLER_PASS",
             ],
 
-            "table" => "videos",
+            "table" => "viddler",
 
             "disk" => "default",
 
             "convert" => [
                 "enabled" => true,
 
-                "mimes" => [
+                "instructions" => [
                     "video/quicktime" => "video/mp4",
                     "application/octet-stream" => "video/mp4"
                 ]
             ],
 
-            "mimes" => [
+            "supported" => [
                 "video/x-msvideo",
                 "video/mp4",
                 "video/x-m4v",
@@ -103,7 +103,7 @@ class TestCase extends Orchestra
                 "video/x-ms-asf",
                 "application/octet-stream",
             ],
-            
+
             "queue" => [
                 "enabled" => true,
             ],
