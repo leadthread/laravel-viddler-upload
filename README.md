@@ -23,7 +23,7 @@ Zenapply\Viddler\Upload\Providers\Viddler::class
 
 and this to the `aliases` array in `config/app.php`
 ```php
-"Viddler" => "Zenapply\Viddler\Upload\Facades\Viddler",
+"Viddler" => Zenapply\Viddler\Upload\Facades\Viddler::class,
 ```
 
 Then you will need to run these commands in the terminal in order to copy the config and migration files
