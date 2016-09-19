@@ -2,6 +2,7 @@
 
 namespace Zenapply\Viddler\Components;
 
+use Zenapply\Viddler\Exceptions\VideoConversionFailedException;
 use Zenapply\Viddler\Models\Viddler;
 use Storage;
 use File;
@@ -25,13 +26,13 @@ class VideoFile
 		    // Check if conversion is needed
 		    if($this->shouldConvert($this->model)) {
 
-		        switch(config('viddler.convert.instructions')[$this->model->mime]) {
+		    	$output = config('viddler.convert.instructions')[$this->model->mime];
+		        switch() {
 		        case "video/mp4":
 		            $this->convertToMp4();
 		            break;
 		        default:
-		            throw new VideoConversionFailedException($this->map[$this->model->mime] . " is not a supported output type.");
-		            break;
+		            throw new VideoConversionFailedException("{$output} is not a supported output type.");
 		        }
 		    }
 		}
@@ -44,7 +45,7 @@ class VideoFile
     		$currentDisk = $this->getDisk();
 
     		// Do the move
-    		$file = $currentDisk->move($this->getPathOnDisk(), "{$status}/{$this->model->filename}");
+    		$currentDisk->move($this->getPathOnDisk(), "{$status}/{$this->model->filename}");
 
     		//Update the Model
     		$this->model->path = $status;
@@ -60,7 +61,7 @@ class VideoFile
 		$pathDisk = $this->getPathToDisk();
 		$pathOld = $this->getPathOnDisk();
 		$pathNew = explode(".", $pathOld)[0].".mp4";
-		$exit;
+		$exit = 0;
 		$output = [];
 		$command = 'ffmpeg -i '.$pathDisk.$pathOld.' -c copy '.$pathDisk.$pathNew.' 2>&1';
 		exec($command,$output,$exit);
