@@ -3,16 +3,85 @@
 namespace Zenapply\Viddler\Components;
 
 use Zenapply\Viddler\Models\Viddler;
-use ViddlerV2;
+use Zenapply\Viddler\Exceptions\ViddlerApiException;
+use Zenapply\Viddler\Exceptions\ViddlerNotFoundException;
+use Viddler_V2;
 
 class ViddlerClient
 {
+	protected $client;
 	protected $session_id;
 	protected $record_token;
 
-	public function upload(VideoFile $file)
+	protected function prepareUpload()
 	{
-		$file->updateStatusTo("encoding");
+		if(empty($this->session_id)) {
+			$this->auth();
+		}
+
+		return $this->checkResponseForErrors($this->client->viddler_videos_prepareUpload([
+			'response_type' => 'json', 
+			'sessionid' => $this->session_id
+		]));
+	}
+
+	protected function executeUpload($endpoint, $postFields)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $endpoint);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, TRUE);
+		curl_setopt($ch, CURLOPT_NOBODY, FALSE);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+		$response     = curl_exec($ch);
+		$info         = curl_getinfo($ch);
+		$header_size  = $info['header_size'];
+		$header       = substr($response, 0, $header_size);
+		$result       = unserialize(substr($response, $header_size));
+		curl_close($ch);
+
+		return $result;
+	}
+
+	public function upload(Viddler $model)
+	{
+		//Fire Event
+		$model->updateStatusTo('uploading');
+		
+		//Path
+		$file = $model->getFile();
+		$path = $file->getFullPath();
+
+		$response = $this->prepareUpload();
+
+		$token      = $response['upload']['token'];
+		$endpoint   = $response['upload']['endpoint'];
+
+		//Prepare the data!
+		$postFields = array();
+		$postFields['title'] = $model->title;
+		$postFields['view_perm'] = "embed";
+		$postFields['description'] = "";
+		$postFields['tags'] = "";
+		$postFields['callback'] = '';
+		$postFields['uploadtoken'] = $token;
+		$postFields['file'] = curl_file_create($path, $model->mime);
+		
+		//Send it!
+		$result = $this->executeUpload($endpoint, $postFields);
+
+		if(empty($result['video']['id'])){
+            throw new ViddlerException('Viddler did not return a video id!');
+        }
+
+        $model->viddler_id = $result['video']['id'];
+        $model->uploaded = true;
+        $model->updateStatusTo('encoding');
+
+		return $model;
 	}
 
 	public function check(Viddler $model)
@@ -25,19 +94,22 @@ class ViddlerClient
 	 */
 	protected function auth()
 	{
-		$key  = Config::get('viddler.auth.key');
-        $user = Config::get('viddler.auth.user');
-        $pass = Config::get('viddler.auth.pass');
+		$key  = config('viddler.auth.key');
+        $user = config('viddler.auth.user');
+        $pass = config('viddler.auth.pass');
 
         //Create Client
         if (empty($this->client)) {
-        	$this->client = new ViddlerV2($key);
+        	$this->client = new Viddler_V2($key);
         }
 
         $resp = $this->client->viddler_users_auth(array('user' => $user, 'password' => $pass));
         $resp = $this->checkResponseForErrors($resp);
-        $this->$session_id = $this->auth['auth']['sessionid'];
-        $this->$record_token = $this->auth['auth']['record_token'];
+
+        $this->session_id = $resp['auth']['sessionid'];
+        if(!empty($resp['auth']['record_token'])) {
+        	$this->record_token = $resp['auth']['record_token'];
+        }
 	}
 
 	/**
@@ -58,5 +130,27 @@ class ViddlerClient
 			$this->auth();
 		}
 		return $this->record_token;
+	}
+
+	protected function checkResponseForErrors($response) {
+		if(isset($response["error"])){
+			$msg = [];
+			$msg[] = "Viddler Error Code: ".$response["error"]["code"];
+			$msg[] = $response["error"]["description"];
+			$msg[] = $response["error"]["details"];
+
+			$msg = implode(" | ", $msg);
+
+			switch($response["error"]["code"]){
+			case "100":
+				throw new ViddlerNotFoundException($msg);
+				break;
+			default:
+				throw new ViddlerException($msg);
+				break;
+			}
+		}
+
+		return $response;
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Zenapply\Viddler\Exceptions;
 
-interface ViddlerException
+class ViddlerException extends \Exception
 {
 	
 }

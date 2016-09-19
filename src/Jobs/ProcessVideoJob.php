@@ -11,17 +11,15 @@ class ProcessVideoJob implements ShouldQueue
 {
 	use Queueable, SerializesModels;
     
-    protected $video;
+    protected $model;
 
-	public function __construct(Viddler $video)
+	public function __construct(Viddler $model)
 	{
-		$this->video = $video;
+		$this->model = $model;
 	}
 
 	public function handle()
     {
-    	$this->video
-    		->convert()
-    		->upload();
+    	$this->model->convert()->upload();
     }
 }

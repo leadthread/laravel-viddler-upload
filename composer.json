@@ -19,7 +19,8 @@
     "autoload":{
         "psr-4":{
             "Zenapply\\Viddler\\":"src/"
-        }
+        },
+        "files": ["vendor/viddler/phpviddler/phpviddler.php"]
     },
     "autoload-dev": {
         "psr-4": {

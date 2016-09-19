@@ -29,35 +29,43 @@ class ViddlerTest extends TestCase
         $this->assertInstanceOf(Service::class,$service);
     }
 
-    public function testConvertingMovToMp4()
+    public function testUploadingAVideo()
     {
+        $title = "This is a test video";
+        $callback = "https://mydomain.com/video/callback";
         $service = new Service();
-        $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
-        $model = $service->create($file, "Test");
+        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
+        $model = $service->create($file, $title, $callback);
         $model = Viddler::find($model->id);
 
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
+        $this->assertEquals($title, $model->title);
+        $this->assertEquals($callback, $model->callback);
+    }
+
+    public function testConvertingMovToMp4()
+    {
+        $title = "This is a test video";
+        $callback = "https://mydomain.com/video/callback";
+        $service = new Service();
+        $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
+        $model = $service->create($file, $title, $callback);
+        $model = Viddler::find($model->id);
+
+        $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
+        $this->assertEquals("video/mp4", $model->mime);
+        $this->assertEquals($title, $model->title);
+        $this->assertEquals($callback, $model->callback);
     }
 
     public function testItFailsWhenUploadingANonVideoFile()
     {
         $this->setExpectedException(IncorrectVideoTypeException::class);
         $title = "This is a test video";
+        $callback = "https://mydomain.com/video/callback";
         $service = new Service();
         $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt");
-        $model = $service->create($file, $title);
-    }
-
-    public function testUploadingAVideo()
-    {
-        $title = "This is a test video";
-        $service = new Service();
-        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
-        $model = $service->create($file, $title);
-        $model = Viddler::find($model->id);
-
-        $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
-        $this->assertEquals($title, $model->title);
+        $model = $service->create($file, $title, $callback);
     }
 }

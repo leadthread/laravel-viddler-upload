@@ -32,8 +32,13 @@ class Viddler extends Model
 
     public function upload()
     {
-        $this->client->upload($this->file);
+        $this->client->upload($this);
         return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
     }
 
     public function updateStatusTo($status)

@@ -14,18 +14,40 @@ Install via [composer](https://getcomposer.org/) - In the terminal:
 composer require zenapply/laravel-viddler
 ```
 
+Now add the following to the `providers` array in your `config/app.php`
+```php
+Zenapply\Viddler\Providers\Viddler::class
+```
+
+and this to the `aliases` array in `config/app.php`
+```php
+"Viddler" => "Zenapply\Viddler\Facades\Viddler",
+```
+
+Then you will need to run these commands in the terminal in order to copy the config and migration files
+```bash
+php artisan vendor:publish --provider="Zenapply\Viddler\Providers\Viddler"
+```
+
+Before you run the migration you may want to take a look at `config/viddler.php` and change the `table` property to a table name that you would like to use. After that run the migration 
+```bash
+php artisan migrate
+```
+
 ## Usage
+
 ```php
 function upload(Request $request)
 {
 	$file = $request->file('file');
 	$name = "My Video Title";
+	$callback = "https://mywebsite.com/videos/callback";
 
 	/*
 	 * Convert, Upload, and Saves to Database
 	 * Returns an Eloquent Model
 	 */
-	$model = Viddler::create($file, $name);
+	$model = Viddler::create($file, $name, $callback);
 }
 ```
 

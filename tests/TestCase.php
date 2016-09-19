@@ -73,9 +73,9 @@ class TestCase extends Orchestra
     {
         $app['config']->set('viddler', [
             "auth" => [
-                "key" => "VIDDLER_KEY",
-                "user" => "VIDDLER_USER",
-                "pass" => "VIDDLER_PASS",
+                "key" => "16xmhpzh76la11jhc2k3",
+                "user" => "StudentGenius",
+                "pass" => "SG!R0ck$",
             ],
 
             "table" => "viddler",

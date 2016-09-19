@@ -61,52 +61,12 @@ class Service {
     }
 
 	/**
-	 * Saves the uploaded file to the waiting disk
-	 * @param string $filename
-	 */
-	protected function saveVideoToNewDisk(UploadedFile $file, $filename) {
-		$disk = Storage::disk(config('viddler.disk'));
-		$contents = file_get_contents($file->getRealPath());
-		$disk->put("new/".$filename, $contents);
-	}
-
-	/**
-	 * Saves the uploaded file to the waiting disk
-	 * @param string $filename
-	 */
-	protected function saveVideoToDatabase(UploadedFile $file, $filename, $title) {
-		
-	}
-
-	/**
 	 * Check if a mime is in the supported list
 	 * @param string|null $mime
 	 */
 	protected function isMimeSupported($mime) {
 		$supported = $this->getSupportedMimes();
 		return in_array($mime, $supported);
-	}
-
-	protected function checkResponseForErrors($response) {
-		if(isset($response["error"])){
-			$msg = [];
-			$msg[] = "Viddler Error Code: ".$response["error"]["code"];
-			$msg[] = $response["error"]["description"];
-			$msg[] = $response["error"]["details"];
-
-			$msg = implode(" | ", $msg);
-
-			switch($response["error"]["code"]){
-			case "100":
-				throw new ViddlerVideoNotFoundException($msg);
-				break;
-			default:
-				throw new ViddlerException($msg);
-				break;
-			}
-		}
-
-		return $response;
 	}
 
 	protected function getSupportedMimes() {
