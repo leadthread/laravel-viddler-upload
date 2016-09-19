@@ -30,6 +30,11 @@ class ViddlerTest extends TestCase
         $this->assertInstanceOf(Service::class,$service);
     }
 
+    public function testViddlerFacade(){
+        $obj = ViddlerFacade::getFacadeRoot();
+        $this->assertInstanceOf(Service::class,$obj);
+    }
+
     public function testUploadingAVideo()
     {
         $title = "This is a test video";
