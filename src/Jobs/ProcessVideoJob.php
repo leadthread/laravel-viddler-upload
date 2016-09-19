@@ -10,24 +10,24 @@ use Zenapply\Viddler\Upload\Components\ViddlerClient;
 
 class ProcessVideoJob implements ShouldQueue
 {
-	use Queueable, SerializesModels;
+    use Queueable, SerializesModels;
     
     protected $model;
     protected $client;
 
-	public function __construct(Viddler $model, ViddlerClient $client = null)
-	{
-		$this->model = $model;
-		$this->client = $client;
-	}
-
-	public function handle()
+    public function __construct(Viddler $model, ViddlerClient $client = null)
     {
-    	// For testing
-    	if (!empty($this->client)) {
-    		$this->model->setClient($this->client);
-    	}
+        $this->model = $model;
+        $this->client = $client;
+    }
 
-    	$this->model->convert()->upload();
+    public function handle()
+    {
+        // For testing
+        if (!empty($this->client)) {
+            $this->model->setClient($this->client);
+        }
+
+        $this->model->convert()->upload();
     }
 }

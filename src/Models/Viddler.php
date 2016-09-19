@@ -20,12 +20,12 @@ use Zenapply\Viddler\Upload\Components\ViddlerClient;
   */
 class Viddler extends Model
 {
-	protected $guarded = ['id'];
-	protected $table;
-	protected $client;
+    protected $guarded = ['id'];
+    protected $table;
+    protected $client;
     public $file;
 
-	public function __construct(array $attributes = [])
+    public function __construct(array $attributes = [])
     {
         if (empty($this->table)) {
             $this->table = config('viddler.table');
@@ -56,18 +56,18 @@ class Viddler extends Model
 
     public function updateStatusTo($status)
     {
-    	$this->file->updateStatusTo($status);
+        $this->file->updateStatusTo($status);
         return $this;
     }
 
     public function isFinished()
     {
-    	return $this->status === "finished";
+        return $this->status === "finished";
     }
 
     public function isNotFinished()
     {
-    	return !$this->isFinished();
+        return !$this->isFinished();
     }
 
     public function setClient(ViddlerClient $client)

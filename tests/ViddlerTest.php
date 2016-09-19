@@ -7,7 +7,7 @@ use Zenapply\Viddler\Upload\Service;
 use Viddler as ViddlerFacade;
 use Illuminate\Http\UploadedFile;
 use Zenapply\Viddler\Upload\Tests\Mocks\ViddlerClientMock;
-use Zenapply\Viddler\Upload\Exceptions\IncorrectVideoTypeException;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
 
 class ViddlerTest extends TestCase
 {
@@ -67,7 +67,7 @@ class ViddlerTest extends TestCase
 
     public function testItFailsWhenUploadingANonVideoFile()
     {
-        $this->setExpectedException(IncorrectVideoTypeException::class);
+        $this->setExpectedException(ViddlerIncorrectVideoTypeException::class);
         $title = "This is a test video";
         $callback = "https://mydomain.com/video/callback";
         $service = $this->getServiceWithMockedClient();

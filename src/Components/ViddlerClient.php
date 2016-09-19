@@ -3,76 +3,74 @@
 namespace Zenapply\Viddler\Upload\Components;
 
 use Zenapply\Viddler\Upload\Models\Viddler;
-use Zenapply\Viddler\Upload\Exceptions\ViddlerException;
-use Zenapply\Viddler\Upload\Exceptions\ViddlerNotFoundException;
-use Viddler_V2;
+use Zenapply\Viddler\Api\Viddler as ViddlerV2;
 
 class ViddlerClient
 {
-	protected $client;
-	protected $session_id;
-	protected $record_token;
+    protected $client;
+    protected $session_id;
+    protected $record_token;
 
-	protected function prepareUpload()
-	{
-		if(empty($this->session_id)) {
-			$this->auth();
-		}
+    protected function prepareUpload()
+    {
+        if (empty($this->session_id)) {
+            $this->auth();
+        }
 
-		return $this->checkResponseForErrors($this->client->viddler_videos_prepareUpload([
-			'response_type' => 'json', 
-			'sessionid' => $this->session_id
-		]));
-	}
+        return $this->client->viddler_videos_prepareUpload([
+            'response_type' => 'json',
+            'sessionid' => $this->session_id
+        ]);
+    }
 
-	protected function executeUpload($endpoint, $postFields)
-	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $endpoint);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-		curl_setopt($ch, CURLOPT_HEADER, TRUE);
-		curl_setopt($ch, CURLOPT_NOBODY, FALSE);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 0);
-		curl_setopt($ch, CURLOPT_POST, TRUE);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-		$response    = curl_exec($ch);
-		$info        = curl_getinfo($ch);
-		$header_size = $info['header_size'];
-		$result      = unserialize(substr($response, $header_size));
-		curl_close($ch);
+    protected function executeUpload($endpoint, $postFields)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        $response    = curl_exec($ch);
+        $info        = curl_getinfo($ch);
+        $header_size = $info['header_size'];
+        $result      = unserialize(substr($response, $header_size));
+        curl_close($ch);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function upload(Viddler $model)
-	{
-		//Fire Event
-		$model->updateStatusTo('uploading');
-		
-		//Path
-		$file = $model->getFile();
-		$path = $file->getFullPath();
+    public function upload(Viddler $model)
+    {
+        //Fire Event
+        $model->updateStatusTo('uploading');
 
-		$response = $this->prepareUpload();
+        //Path
+        $file = $model->getFile();
+        $path = $file->getFullPath();
 
-		$token      = $response['upload']['token'];
-		$endpoint   = $response['upload']['endpoint'];
+        $response = $this->prepareUpload();
 
-		//Prepare the data!
-		$postFields = array();
-		$postFields['callback'] = $model->callback;
-		$postFields['description'] = "";
-		$postFields['tags'] = "";
-		$postFields['title'] = $model->title;
-		$postFields['uploadtoken'] = $token;
-		$postFields['view_perm'] = "embed";
-		$postFields['file'] = curl_file_create($path, $model->mime);
-		
-		//Send it!
-		$result = $this->executeUpload($endpoint, $postFields);
+        $token      = $response['upload']['token'];
+        $endpoint   = $response['upload']['endpoint'];
 
-		if(empty($result['video']['id'])){
+        //Prepare the data!
+        $postFields = array();
+        $postFields['callback'] = $model->callback;
+        $postFields['description'] = "";
+        $postFields['tags'] = "";
+        $postFields['title'] = $model->title;
+        $postFields['uploadtoken'] = $token;
+        $postFields['view_perm'] = "embed";
+        $postFields['file'] = curl_file_create($path, $model->mime);
+
+        //Send it!
+        $result = $this->executeUpload($endpoint, $postFields);
+
+        if (empty($result['video']['id'])) {
             throw new ViddlerException('Viddler did not return a video id!');
         }
 
@@ -80,72 +78,50 @@ class ViddlerClient
         $model->uploaded = true;
         $model->updateStatusTo('encoding');
 
-		return $model;
-	}
+        return $model;
+    }
 
-	/**
-	 * Authenticate with viddler
-	 */
-	protected function auth()
-	{
-		$key  = config('viddler.auth.key');
+    /**
+     * Authenticate with viddler
+     */
+    protected function auth()
+    {
+        $key  = config('viddler.auth.key');
         $user = config('viddler.auth.user');
         $pass = config('viddler.auth.pass');
 
         //Create Client
         if (empty($this->client)) {
-        	$this->client = new Viddler_V2($key);
+            $this->client = new ViddlerV2($key);
         }
 
         $resp = $this->client->viddler_users_auth(array('user' => $user, 'password' => $pass));
-        $resp = $this->checkResponseForErrors($resp);
 
         $this->session_id = $resp['auth']['sessionid'];
-        if(!empty($resp['auth']['record_token'])) {
-        	$this->record_token = $resp['auth']['record_token'];
+        if (!empty($resp['auth']['record_token'])) {
+            $this->record_token = $resp['auth']['record_token'];
         }
-	}
+    }
 
-	/**
-	 * Return the session id
-	 */
-	protected function getSessionId() {
-		if(empty($this->session_id)) {
-			$this->auth();
-		}
-		return $this->session_id;
-	}
+    /**
+     * Return the session id
+     */
+    protected function getSessionId()
+    {
+        if (empty($this->session_id)) {
+            $this->auth();
+        }
+        return $this->session_id;
+    }
 
-	/**
-	 * Return the record token for this session
-	 */
-	protected function getRecordToken() {
-		if(empty($this->session_id)) {
-			$this->auth();
-		}
-		return $this->record_token;
-	}
-
-	protected function checkResponseForErrors($response) {
-		if(isset($response["error"])){
-			$msg = [];
-			$msg[] = "Viddler Error";
-			$parts = ["code", "description", "details"];
-			foreach ($parts as $part) {
-				if (!empty($response["error"][$part])) {
-					$msg[] = $part.": ".$response["error"][$part];
-				}
-			}
-			$msg = implode(" | ", $msg);
-
-			switch($response["error"]["code"]){
-			case "100":
-				throw new ViddlerNotFoundException($msg);
-			default:
-				throw new ViddlerException($msg);
-			}
-		}
-
-		return $response;
-	}
+    /**
+     * Return the record token for this session
+     */
+    protected function getRecordToken()
+    {
+        if (empty($this->session_id)) {
+            $this->auth();
+        }
+        return $this->record_token;
+    }
 }

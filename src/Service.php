@@ -6,11 +6,12 @@ use Exception;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Zenapply\Viddler\Upload\Components\ViddlerClient;
-use Zenapply\Viddler\Upload\Exceptions\IncorrectVideoTypeException;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
 use Zenapply\Viddler\Upload\Jobs\ProcessVideoJob;
 use Zenapply\Viddler\Upload\Models\Viddler;
 
-class Service {
+class Service
+{
 
     /**
      * ViddlerClient
@@ -25,7 +26,7 @@ class Service {
         //Check file type
         $ok = $this->isMimeSupported($file->getMimeType());
 
-        if($ok === true){
+        if ($ok === true) {
             //Store the file
             $filename = $file->hashName();
             $disk = Storage::disk(config('viddler.disk'));
@@ -52,11 +53,11 @@ class Service {
         } else {
             $msg = [];
             $msg[] = "Incorrect file type!";
-            if(is_object($file)){
+            if (is_object($file)) {
                 $msg[] = $file->getClientOriginalExtension();
                 $msg[] = "(".$file->getMimeType().")";
             }
-            throw new IncorrectVideoTypeException(implode(" ", $msg));
+            throw new ViddlerIncorrectVideoTypeException(implode(" ", $msg));
         }
     }
 
@@ -77,12 +78,14 @@ class Service {
      * Check if a mime is in the supported list
      * @param string|null $mime
      */
-    protected function isMimeSupported($mime) {
+    protected function isMimeSupported($mime)
+    {
         $supported = $this->getSupportedMimes();
         return in_array($mime, $supported);
     }
 
-    protected function getSupportedMimes() {
+    protected function getSupportedMimes()
+    {
         return [
             "video/x-msvideo",
             "video/mp4",

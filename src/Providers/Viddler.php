@@ -7,10 +7,11 @@ use Zenapply\Viddler\Upload\Service;
 
 class Viddler extends Provider
 {
-    public function register() {
+    public function register()
+    {
         $this->mergeConfigFrom(__DIR__ . '/../../config/viddler.php', 'viddler');
 
-        $this->app->singleton('viddler', function() {
+        $this->app->singleton('viddler', function () {
             return new Service;
         });
     }
@@ -19,6 +20,6 @@ class Viddler extends Provider
     {
         $this->publishes([
             __DIR__ . '/../../config/viddler.php' => base_path('config/viddler.php'),
-        ]);   
+        ]);
     }
 }
