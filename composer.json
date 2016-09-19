@@ -1,5 +1,5 @@
 {
-    "name": "zenapply/laravel-viddler",
+    "name": "zenapply/laravel-viddler-upload",
     "type": "library",
     "authors": [
         {
@@ -11,10 +11,11 @@
     "keywords": [
         "laravel",
         "viddler",
+        "video",
         "tylercd100",
         "zenapply"
     ],
-    "homepage": "https://github.com/zenapply/laravel-viddler",
+    "homepage": "https://github.com/zenapply/laravel-viddler-upload",
     "license": "MIT",  
     "autoload":{
         "psr-4":{
