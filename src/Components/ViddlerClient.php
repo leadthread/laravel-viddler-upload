@@ -39,7 +39,6 @@ class ViddlerClient
 		$response    = curl_exec($ch);
 		$info        = curl_getinfo($ch);
 		$header_size = $info['header_size'];
-		// $header      = substr($response, 0, $header_size);
 		$result      = unserialize(substr($response, $header_size));
 		curl_close($ch);
 
@@ -130,18 +129,13 @@ class ViddlerClient
 	protected function checkResponseForErrors($response) {
 		if(isset($response["error"])){
 			$msg = [];
-
 			$msg[] = "Viddler Error";
-			if (!empty($response["error"]["code"])) {
-				$msg[] = "Code: ".$response["error"]["code"];
+			$parts = ["code", "description", "details"];
+			foreach ($parts as $part) {
+				if (!empty($response["error"][$part])) {
+					$msg[] = $part.": ".$response["error"][$part];
+				}
 			}
-			if (!empty($response["error"]["description"])) {
-				$msg[] = "Description: ".$response["error"]["description"];
-			}
-			if (!empty($response["error"]["details"])) {
-				$msg[] = "Details: ".$response["error"]["details"];
-			}
-
 			$msg = implode(" | ", $msg);
 
 			switch($response["error"]["code"]){

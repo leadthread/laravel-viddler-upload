@@ -8,6 +8,7 @@ use Zenapply\Viddler\Components\ViddlerClient;
 
 /**
   * @property boolean $uploaded
+  * @property string  $callback
   * @property string  $disk
   * @property string  $extension
   * @property string  $filename

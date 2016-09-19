@@ -27,7 +27,7 @@ class VideoFile
 		    if($this->shouldConvert($this->model)) {
 
 		    	$output = config('viddler.convert.instructions')[$this->model->mime];
-		        switch() {
+		        switch($output) {
 		        case "video/mp4":
 		            $this->convertToMp4();
 		            break;
