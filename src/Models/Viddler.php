@@ -2,9 +2,10 @@
 
 namespace Zenapply\Viddler\Upload\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Zenapply\Viddler\Upload\Components\VideoFile;
 use Zenapply\Viddler\Upload\Components\ViddlerClient;
+use Zenapply\Viddler\Upload\Components\VideoFile;
 
 /**
   * @property boolean $uploaded
@@ -39,13 +40,21 @@ class Viddler extends Model
 
     public function convert()
     {
-        $this->file->convert();
+        try {
+            $this->file->convert();
+        } catch (Exception $e) {
+            $this->updateStatusTo("error");
+        }
         return $this;
     }
 
     public function upload()
     {
-        $this->client->upload($this);
+        try {
+            $this->client->upload($this);
+        } catch (Exception $e) {
+            $this->updateStatusTo("error");
+        }
         return $this;
     }
 
