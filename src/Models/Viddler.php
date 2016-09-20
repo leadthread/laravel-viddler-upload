@@ -44,6 +44,7 @@ class Viddler extends Model
             $this->file->convert();
         } catch (Exception $e) {
             $this->updateStatusTo("error");
+            throw $e;
         }
         return $this;
     }
@@ -54,6 +55,7 @@ class Viddler extends Model
             $this->client->upload($this);
         } catch (Exception $e) {
             $this->updateStatusTo("error");
+            throw $e;
         }
         return $this;
     }

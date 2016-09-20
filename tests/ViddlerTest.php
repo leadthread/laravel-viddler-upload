@@ -4,6 +4,7 @@ namespace Zenapply\Viddler\Upload\Tests;
 
 use Illuminate\Http\UploadedFile;
 use Storage;
+use Exception;
 use Viddler as ViddlerFacade;
 use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
 use Zenapply\Viddler\Upload\Models\Viddler;
@@ -28,6 +29,8 @@ class ViddlerTest extends TestCase
 
     public function testFileErrorsCorrectly()
     {
+        $this->setExpectedException(Exception::class);
+
         //Create the file
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
 
