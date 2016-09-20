@@ -32,7 +32,7 @@ class Service
             $disk = Storage::disk(config('viddler.disk'));
             $contents = file_get_contents($file->getRealPath());
             $disk->put("new/".$filename, $contents);
-
+            
             $video = new Viddler([
                 'disk' => config('viddler.disk'),
                 'path' => 'new',
