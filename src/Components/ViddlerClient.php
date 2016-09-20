@@ -4,6 +4,7 @@ namespace Zenapply\Viddler\Upload\Components;
 
 use Zenapply\Viddler\Upload\Models\Viddler;
 use Zenapply\Viddler\Api\Viddler as ViddlerV2;
+use Zenapply\Viddler\Api\Exceptions\ViddlerException;
 
 class ViddlerClient
 {
