@@ -60,7 +60,6 @@ class ViddlerClient
 
         //Prepare the data!
         $postFields = array();
-        $postFields['callback'] = $model->callback;
         $postFields['description'] = "";
         $postFields['tags'] = "";
         $postFields['title'] = $model->title;

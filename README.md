@@ -43,13 +43,12 @@ function upload(Request $request)
 {
 	$file = $request->file('file');
 	$name = "My Video Title";
-	$callback = "https://mywebsite.com/videos/callback";
 
 	/*
 	 * Convert, Upload, and Saves to Database
 	 * Returns an Eloquent Model
 	 */
-	$model = Viddler::create($file, $name, $callback);
+	$model = Viddler::create($file, $name);
 }
 ```
 

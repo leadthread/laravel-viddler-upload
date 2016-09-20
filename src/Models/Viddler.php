@@ -9,7 +9,6 @@ use Zenapply\Viddler\Upload\Components\VideoFile;
 
 /**
   * @property boolean $uploaded
-  * @property string  $callback
   * @property string  $disk
   * @property string  $extension
   * @property string  $filename

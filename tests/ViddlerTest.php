@@ -37,7 +37,7 @@ class ViddlerTest extends TestCase
         //Use the service
         $client = new ViddlerClientMockThrowsExceptions();
         $service = $this->getServiceWithMockedClient($client);
-        $model = $service->create($file, "This is a test video", "https://mydomain.com/video/callback");
+        $model = $service->create($file, "This is a test video");
         $model = Viddler::find($model->id);
         
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/error/'.$model->filename));
@@ -57,7 +57,7 @@ class ViddlerTest extends TestCase
 
         //Use the service
         $service = $this->getServiceWithMockedClient();
-        $model = $service->create($file, "This is a test video", "https://mydomain.com/video/callback");
+        $model = $service->create($file, "This is a test video");
     }
 
     public function testItCreatesAnInstanceOfViddler()
@@ -76,19 +76,18 @@ class ViddlerTest extends TestCase
     {
         $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
-        $model = $service->create($file, "This is a test video", "https://mydomain.com/video/callback");
+        $model = $service->create($file, "This is a test video");
 
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
         $this->assertEquals("This is a test video", $model->title);
-        $this->assertEquals("https://mydomain.com/video/callback", $model->callback);
     }
 
     public function testConvertingMovToMp4()
     {
         $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
-        $model = $service->create($file, "This is a test video", "https://mydomain.com/video/callback");
+        $model = $service->create($file, "This is a test video");
 
         // Because converting is async
         $model = Viddler::find($model->id);
@@ -96,7 +95,6 @@ class ViddlerTest extends TestCase
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
         $this->assertEquals("This is a test video", $model->title);
-        $this->assertEquals("https://mydomain.com/video/callback", $model->callback);
     }
 
     public function testItFailsWhenUploadingANonVideoFile()
@@ -104,7 +102,7 @@ class ViddlerTest extends TestCase
         $this->setExpectedException(ViddlerIncorrectVideoTypeException::class);
         $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt");
-        $model = $service->create($file, "This is a test video", "https://mydomain.com/video/callback");
+        $model = $service->create($file, "This is a test video");
     }
 
     protected function getServiceWithMockedClient($client = null)

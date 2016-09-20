@@ -19,7 +19,6 @@ class CreateVideosTables extends Migration
             $table->string('path')->default('/');
             $table->string('disk');
             $table->string('filename');
-            $table->string('callback');
             $table->string('title');
             $table->string('extension');
             $table->string('viddler_id')->nullable();

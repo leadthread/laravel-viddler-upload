@@ -21,7 +21,7 @@ class Service
     /**
      * Convert, Upload and Store in Database from a video file
      */
-    public function create(UploadedFile $file, $title, $callback)
+    public function create(UploadedFile $file, $title)
     {
         //Check file type
         $ok = $this->isMimeSupported($file->getMimeType());
@@ -38,7 +38,6 @@ class Service
                 'path' => 'new',
                 'filename' => $filename,
                 'title' => $title,
-                'callback' => $callback,
                 'status' => 'new',
                 'mime' => $file->getMimeType(),
                 'extension' => $file->extension(),
