@@ -40,10 +40,16 @@ class VideoFile
     public function updateStatusTo($status)
     {
         if ($this->model->isNotFinished()) {
-            $currentDisk = $this->getDisk();
+            $disk = $this->getDisk();
+            $dest = "{$status}/{$this->model->filename}";
+
+            // Delete a prexisting file
+            if ($disk->exists($dest)) {
+                $disk->delete($dest);
+            }
 
             // Do the move
-            $currentDisk->move($this->getPathOnDisk(), "{$status}/{$this->model->filename}");
+            $disk->move($this->getPathOnDisk(), $dest);
 
             //Update the Model
             $this->model->path = $status;
