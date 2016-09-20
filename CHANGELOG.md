@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 1.0.5
+- Added a missing use statement
+
 ### 1.0.4
 - Fixed issue with uploading the same file after the first attempt failed
 
