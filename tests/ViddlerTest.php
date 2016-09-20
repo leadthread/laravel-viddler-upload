@@ -11,10 +11,10 @@ use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
 
 class ViddlerTest extends TestCase
 {
-	public function setUp()
+    public function setUp()
     {
         parent::setUp();
-    	$this->flushTestStorageDisks();
+        $this->flushTestStorageDisks();
         $this->migrate();
     }
 
@@ -27,12 +27,13 @@ class ViddlerTest extends TestCase
     public function testItCreatesAnInstanceOfViddler()
     {
         $service = new Service();
-        $this->assertInstanceOf(Service::class,$service);
+        $this->assertInstanceOf(Service::class, $service);
     }
 
-    public function testViddlerFacade(){
+    public function testViddlerFacade()
+    {
         $obj = ViddlerFacade::getFacadeRoot();
-        $this->assertInstanceOf(Service::class,$obj);
+        $this->assertInstanceOf(Service::class, $obj);
     }
 
     public function testUploadingAVideo()
@@ -43,7 +44,7 @@ class ViddlerTest extends TestCase
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
         $model = $service->create($file, $title, $callback);
         $model = Viddler::find($model->id);
-        
+
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
         $this->assertEquals($title, $model->title);

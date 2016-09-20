@@ -98,6 +98,7 @@ class ViddlerClient
         $resp = $this->client->viddler_users_auth(array('user' => $user, 'password' => $pass));
 
         $this->session_id = $resp['auth']['sessionid'];
+        
         if (!empty($resp['auth']['record_token'])) {
             $this->record_token = $resp['auth']['record_token'];
         }
