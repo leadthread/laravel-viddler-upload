@@ -21,6 +21,7 @@ class CreateVideosTables extends Migration
             $table->string('filename');
             $table->string('title');
             $table->string('extension');
+            $table->integer('encoding_progress')->nullable();
             $table->string('viddler_id')->nullable();
             $table->string('status')->default('new');
             $table->boolean('uploaded')->default(false);

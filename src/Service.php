@@ -19,6 +19,15 @@ class Service
     protected $client = null;
 
     /**
+     * Checks the encoding status of a Viddler video
+     */
+    public function check(Viddler $model)
+    {
+        $model = $model->check();
+        return $model;
+    }
+
+    /**
      * Convert, Upload and Store in Database from a video file
      */
     public function create(UploadedFile $file, $title)

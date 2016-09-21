@@ -27,6 +27,21 @@ class ViddlerTest extends TestCase
         parent::tearDown();
     }
 
+    public function testCheckEncoding()
+    {
+        $client = new ViddlerClientMock();
+        $service = $this->getServiceWithMockedClient($client);
+        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
+        $model = $service->create($file, "This is a test video");
+        $model = Viddler::find($model->id);
+        $model->setClient($client);
+
+        $model = $service->check($model);
+        $this->assertEquals(true, file_exists(__DIR__.'/tmp/finished/'.$model->filename));
+        $this->assertEquals(100, $model->encoding_progress);
+        $this->assertEquals("finished", $model->status);
+    }
+
     public function testFileErrorsCorrectly()
     {
         $this->setExpectedException(Exception::class);
