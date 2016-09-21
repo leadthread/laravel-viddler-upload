@@ -44,6 +44,50 @@ class ViddlerClient
         return $result;
     }
 
+    protected function executeCheck(Viddler $model)
+    {
+        if (empty($this->session_id)) {
+            $this->auth();
+        }
+
+        return $this->client->viddler_encoding_getStatus2([
+            'video_id' => $model->viddler_id,
+            'response_type' => 'json',
+            'sessionid' => $this->session_id
+        ]);
+    }
+
+    public function check(Viddler $model)
+    {
+        if ($model->status === "encoding") {
+            $response = $this->executeCheck($model);
+            
+            $files = collect($response["list_result"]["video_encoding_list"][0]["video_file_encoding_list"]);
+
+            if ($files->count() < 1) {
+                throw new ViddlerException("No files were returned from viddler");
+            } else {
+                $progressAll = $files->sum('encoding_progress')/$files->count();
+
+                $files = $files->filter(function ($file) {
+                    return $file["profile_name"] === "360p";
+                });
+
+                $progress360p = $files->sum('encoding_progress')/$files->count();
+
+                $model->encoding_progress = max($progress360p, $progressAll);
+
+                if ($model->encoding_progress === 100) {
+                    $model->updateStatusTo('finished');
+                }
+
+                $model->save();
+            }
+        }
+
+        return $model;
+    }
+
     public function upload(Viddler $model)
     {
         //Fire Event

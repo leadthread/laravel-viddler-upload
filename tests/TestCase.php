@@ -17,7 +17,7 @@ class TestCase extends Orchestra
 
     public function tearDown()
     {
-        parent::tearDown();        
+        parent::tearDown();
     }
 
     /**

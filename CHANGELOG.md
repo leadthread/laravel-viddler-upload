@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 2.1.0
+- Can now check the status of a viddler video
+
 ### 2.0.0
 - Removed callback as it is breaks everything
 

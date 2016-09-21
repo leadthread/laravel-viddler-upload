@@ -59,6 +59,12 @@ class Viddler extends Model
         return $this;
     }
 
+    public function check()
+    {
+        $this->client->check($this);
+        return $this;
+    }
+
     public function getFile()
     {
         return $this->file;
