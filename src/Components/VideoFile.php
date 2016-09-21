@@ -11,7 +11,7 @@ class VideoFile
 {
     protected $model;
 
-    public function __construct(Viddler $model)
+    public function __construct(Viddler &$model)
     {
         $this->model = $model;
     }
@@ -20,7 +20,7 @@ class VideoFile
     {
         if ($this->model->isNotFinished() && config('viddler.convert.enabled')) {
             // Move to appropriate disk
-            $this->updateStatusTo('converting');
+            $this->model->updateStatusTo('converting');
 
             // Check if conversion is needed
             if ($this->shouldConvert($this->model)) {
@@ -37,7 +37,7 @@ class VideoFile
         return $this->model;
     }
 
-    public function updateStatusTo($status)
+    public function moveTo($status)
     {
         if ($this->model->isNotFinished()) {
             $disk = $this->getDisk();
@@ -53,11 +53,10 @@ class VideoFile
 
             //Update the Model
             $this->model->path = $status;
-            $this->model->status = $status;
             $this->model->save();
         }
 
-        return $this;
+        return $this->model;
     }
 
     protected function convertToMp4()

@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 2.2.0
+- Will now fire a ViddlerFinished Event when that status is changed to finished
+
 ### 2.1.0
 - Can now check the status of a viddler video
 

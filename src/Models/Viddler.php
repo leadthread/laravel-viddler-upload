@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Zenapply\Viddler\Upload\Components\ViddlerClient;
 use Zenapply\Viddler\Upload\Components\VideoFile;
+use Zenapply\Viddler\Upload\Events\ViddlerFinished;
 
 /**
   * @property boolean $uploaded
@@ -72,7 +73,15 @@ class Viddler extends Model
 
     public function updateStatusTo($status)
     {
-        $this->file->updateStatusTo($status);
+        $this->file->moveTo($status);
+        
+        $this->status = $status;
+        $this->save();
+
+        if ($this->status === "finished") {
+            event(new ViddlerFinished($this));
+        }
+        
         return $this;
     }
 
