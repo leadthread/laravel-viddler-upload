@@ -77,13 +77,12 @@ class ViddlerClient
 
                 $model->encoding_progress = max($progress360p, $progressAll);
 
-                if ($model->encoding_progress === 100) {
+                if ($model->encoding_progress == 100) {
                     // This method will save the model
-                    $model = $model->updateStatusTo('finished');
+                    $model->updateStatusTo('finished');
                 } else {
                     $model->save();
                 }
-
             }
         }
 
