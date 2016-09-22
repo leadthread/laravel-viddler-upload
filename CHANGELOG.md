@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.1.1
+- Round the encoding_progress
+
 ### 3.1.0
 - Can now specify your own model to use
 

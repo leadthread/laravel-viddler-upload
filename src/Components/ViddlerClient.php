@@ -75,7 +75,7 @@ class ViddlerClient
 
                 $progress360p = $files->sum('encoding_progress')/$files->count();
 
-                $model->encoding_progress = max($progress360p, $progressAll);
+                $model->encoding_progress = round(max($progress360p, $progressAll));
 
                 if ($model->encoding_progress == 100) {
                     // This method will save the model
