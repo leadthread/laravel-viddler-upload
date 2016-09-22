@@ -80,6 +80,8 @@ class TestCase extends Orchestra
 
             "table" => "viddler",
 
+            "model" => \Zenapply\Viddler\Upload\Models\Viddler::class,
+
             "disk" => "default",
 
             "convert" => [
@@ -89,23 +91,6 @@ class TestCase extends Orchestra
                     "video/quicktime" => "video/mp4",
                     "application/octet-stream" => "video/mp4"
                 ]
-            ],
-
-            "supported" => [
-                "video/x-msvideo",
-                "video/mp4",
-                "video/x-m4v",
-                "video/x-flv",
-                "video/quicktime",
-                "video/x-ms-wmv",
-                "video/mpeg",
-                "video/3gpp",
-                "video/x-ms-asf",
-                "application/octet-stream",
-            ],
-
-            "queue" => [
-                "enabled" => true,
             ],
         ]);
 

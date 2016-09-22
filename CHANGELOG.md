@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.1.0
+- Can now specify your own model to use
+
 ### 3.0.0
 - Removed jobs, now you must manually tell it to convert, upload and check the video
 

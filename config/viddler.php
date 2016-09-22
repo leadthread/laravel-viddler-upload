@@ -17,6 +17,12 @@ return [
     "table" => "viddler",
 
     /**
+     * The Eloquent Model to use
+     * (Must extend \Zenapply\Viddler\Upload\Models\Viddler)
+     */
+    "model" => \Zenapply\Viddler\Upload\Models\Viddler::class,
+
+    /**
      * The storage disk to use.
      */
     "disk" => "default",
