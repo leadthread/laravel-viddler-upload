@@ -35,4 +35,24 @@ return [
             "application/octet-stream" => "video/mp4"
         ]
     ],
+
+    /**
+     * Queue settings for jobs
+     */
+    "queue" => [
+        // CheckVideoJob
+        "check" => [
+            // How often to run this job again until video finishes
+            "interval" => 10,
+
+            // The name of the queue to use
+            "queue" => "default",
+        ],
+
+        // ProcessVideoJob
+        "upload" => [
+            // The name of the queue to use
+            "queue" => "default",
+        ],
+    ],
 ];

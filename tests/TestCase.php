@@ -109,6 +109,7 @@ class TestCase extends Orchestra
             ],
         ]);
 
+        $app['config']->set('broadcasting.default', 'log');
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
@@ -124,7 +125,8 @@ class TestCase extends Orchestra
         ]);
     }
 
-    protected function flushTestStorageDisks () {
+    protected function flushTestStorageDisks()
+    {
         $disk = Storage::disk(config('viddler.disk'));
 
         //Delete files on disk
@@ -140,7 +142,6 @@ class TestCase extends Orchestra
         foreach ($directories as $dir) {
             $disk->deleteDirectory($dir);
         }
-
     }
 
     /**

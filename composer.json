@@ -34,7 +34,8 @@
         "illuminate/filesystem": "^5.2.31",
         "illuminate/http": "^5.2.31",
         "league/flysystem": "^1.0.27",
-        "zenapply/php-viddler": "^1.0.0"
+        "zenapply/php-viddler": "^2.0.0",
+        "nesbot/carbon": "^1.21"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8|^5.0",

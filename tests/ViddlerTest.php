@@ -29,14 +29,9 @@ class ViddlerTest extends TestCase
 
     public function testCheckEncoding()
     {
-        $client = new ViddlerClientMock();
-        $service = $this->getServiceWithMockedClient($client);
-        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
-        $model = $service->create($file, "This is a test video");
-        $model = Viddler::find($model->id);
-        $model->setClient($client);
+        $model = $this->uploadFile("small.mp4", "This is a test video");
+        $model = ViddlerFacade::check($model);
 
-        $model = $service->check($model);
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/finished/'.$model->filename));
         $this->assertEquals(100, $model->encoding_progress);
         $this->assertEquals("finished", $model->status);
@@ -51,10 +46,8 @@ class ViddlerTest extends TestCase
 
         //Use the service
         $client = new ViddlerClientMockThrowsExceptions();
-        $service = $this->getServiceWithMockedClient($client);
-        $model = $service->create($file, "This is a test video");
-        $model = Viddler::find($model->id);
-        
+        $model = $this->uploadFile("small.mp4", "This is a test video", $client);
+
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/error/'.$model->filename));
         $this->assertEquals("error", $model->status);
     }
@@ -71,8 +64,7 @@ class ViddlerTest extends TestCase
         $disk->put("encoding/".$filename, $contents);
 
         //Use the service
-        $service = $this->getServiceWithMockedClient();
-        $model = $service->create($file, "This is a test video");
+        $model = $this->uploadFile("small.mp4", "This is a test video");
     }
 
     public function testItCreatesAnInstanceOfViddler()
@@ -89,9 +81,7 @@ class ViddlerTest extends TestCase
 
     public function testUploadingAVideo()
     {
-        $service = $this->getServiceWithMockedClient();
-        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
-        $model = $service->create($file, "This is a test video");
+        $model = $this->uploadFile("small.mp4", "This is a test video");
 
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
@@ -100,12 +90,7 @@ class ViddlerTest extends TestCase
 
     public function testConvertingMovToMp4()
     {
-        $service = $this->getServiceWithMockedClient();
-        $file = new UploadedFile(__DIR__."/files/small.mov", "small.mov");
-        $model = $service->create($file, "This is a test video");
-
-        // Because converting is async
-        $model = Viddler::find($model->id);
+        $model = $this->uploadFile("small.mov", "This is a test video");
 
         $this->assertEquals(true, file_exists(__DIR__.'/tmp/encoding/'.$model->filename));
         $this->assertEquals("video/mp4", $model->mime);
@@ -130,5 +115,18 @@ class ViddlerTest extends TestCase
         $service->setClient($client);
 
         return $service;
+    }
+
+    protected function uploadFile($filename, $title, $client = null)
+    {
+        if (empty($client)) {
+            $client = new ViddlerClientMock();
+        }
+        $file = new UploadedFile(__DIR__."/files/".$filename, $filename);
+        $model = ViddlerFacade::create($file, $title);
+        $model->setClient($client);
+        $model->convert();
+        $model->upload();
+        return $model;
     }
 }

@@ -53,9 +53,6 @@ class Service
             ]);
             $video->save();
 
-            //Convert File
-            dispatch(new ProcessVideoJob($video, $this->client));
-
             //Done
             return $video;
         } else {

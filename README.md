@@ -1,6 +1,7 @@
 # Laravel Viddler Upload
 [![Latest Version](https://img.shields.io/github/release/zenapply/laravel-viddler-upload.svg?style=flat-square)](https://github.com/zenapply/laravel-viddler-upload/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![HHVM Status](http://hhvm.h4cc.de/badge/zenapply/laravel-viddler-upload.svg?style=flat-square)](http://hhvm.h4cc.de/package/zenapply/laravel-viddler-upload)
 [![Build Status](https://travis-ci.org/zenapply/laravel-viddler-upload.svg?branch=master)](https://travis-ci.org/zenapply/laravel-viddler-upload)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zenapply/laravel-viddler-upload/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zenapply/laravel-viddler-upload/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/zenapply/laravel-viddler-upload/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/zenapply/laravel-viddler-upload/?branch=master)
