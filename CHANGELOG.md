@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.0.0
+- Removed jobs, now you must manually tell it to convert, upload and check the video
+
 ### 2.2.1
 - Fixed a number comparison issue
 

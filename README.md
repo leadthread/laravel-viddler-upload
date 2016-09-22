@@ -46,10 +46,20 @@ function upload(Request $request)
 	$name = "My Video Title";
 
 	/*
-	 * Convert, Upload, and Saves to Database
 	 * Returns an Eloquent Model
 	 */
 	$model = Viddler::create($file, $name);
+
+	// Convert the file
+	$model->convert();
+
+	// Upload it
+	$model->upload();
+
+	// Check the encoding status
+	$model->check();
+
+	return $model;
 }
 ```
 
