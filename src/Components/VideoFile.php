@@ -40,20 +40,32 @@ class VideoFile
     public function moveTo($status)
     {
         if ($this->model->isNotFinished()) {
-            $disk = $this->getDisk();
-            $dest = "{$status}/{$this->model->filename}";
+            try {
+                $disk = $this->getDisk();
+                $dest = "{$status}/{$this->model->filename}";
 
-            // Delete a prexisting file
-            if ($disk->exists($dest)) {
-                $disk->delete($dest);
+                // Delete a prexisting file
+                if ($disk->exists($dest)) {
+                    $disk->delete($dest);
+                }
+
+                // Do the move
+                $disk->move($this->getPathOnDisk(), $dest);
+
+                //Update the Model
+                $this->model->path = $status;
+                $this->model->save();
+            } catch (\League\Flysystem\FileNotFoundException $e) {
+                $this->model->status = "error";
+                $this->model->path = null;
+                $this->model->filename = null;
+                $this->model->disk = null;
+                $this->model->extension = null;
+                $this->model->mime = null;
+                $this->model->save();
+
+                throw $e;
             }
-
-            // Do the move
-            $disk->move($this->getPathOnDisk(), $dest);
-
-            //Update the Model
-            $this->model->path = $status;
-            $this->model->save();
         }
 
         return $this->model;

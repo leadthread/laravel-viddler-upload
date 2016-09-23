@@ -74,8 +74,8 @@ class Viddler extends Model
     public function updateStatusTo($status)
     {
         $this->file->moveTo($status);
-        
         $this->status = $status;
+        
         $this->save();
 
         if ($this->status === "finished") {

@@ -52,6 +52,29 @@ class ViddlerTest extends TestCase
         $this->assertEquals("error", $model->status);
     }
 
+    public function testFileErrorsCorrectlyWhenFileIsMissing()
+    {
+        //Create the file
+        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
+
+        //Use the service
+        $model = $this->uploadFile("small.mp4", "This is a test video");
+
+        Storage::disk($model->disk)->delete($model->path ."/". $model->filename);
+
+        try {
+            ViddlerFacade::check($model);
+            $this->fail("Exception was not thrown!");
+        } catch (\League\Flysystem\FileNotFoundException $e) {
+            $model = Viddler::findOrFail($model->id);
+            $this->assertEquals("error", $model->status);
+            $this->assertEquals(null, $model->path);
+            $this->assertEquals(null, $model->filename);
+            $this->assertEquals(null, $model->disk);
+            $this->assertEquals(null, $model->extension);
+        }
+    }
+
     public function testUploadingAVideoThatHasAPreExistingFileOnTheServer()
     {
         //Create the file
@@ -122,11 +145,13 @@ class ViddlerTest extends TestCase
         if (empty($client)) {
             $client = new ViddlerClientMock();
         }
+
         $file = new UploadedFile(__DIR__."/files/".$filename, $filename);
         $model = ViddlerFacade::create($file, $title);
         $model->setClient($client);
         $model->convert();
         $model->upload();
+
         return $model;
     }
 }

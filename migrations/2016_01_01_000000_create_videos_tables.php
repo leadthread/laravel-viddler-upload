@@ -15,16 +15,16 @@ class CreateVideosTables extends Migration
     {
         Schema::create(config('viddler.table'), function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('mime');
-            $table->string('path')->default('/');
-            $table->string('disk');
-            $table->string('filename');
             $table->string('title');
-            $table->string('extension');
-            $table->integer('encoding_progress')->nullable();
-            $table->string('viddler_id')->nullable();
             $table->string('status')->default('new');
             $table->boolean('uploaded')->default(false);
+            $table->integer('encoding_progress')->nullable();
+            $table->string('disk')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('filename')->nullable();
+            $table->string('mime')->nullable();
+            $table->string('path')->default('/')->nullable();
+            $table->string('viddler_id')->nullable();
             $table->timestamps();
         });
     }
