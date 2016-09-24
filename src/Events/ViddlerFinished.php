@@ -2,9 +2,9 @@
 
 namespace Zenapply\Viddler\Upload\Events;
 
-use Zenapply\Viddler\Upload\Models\Viddler;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
+use Zenapply\Viddler\Upload\Models\Viddler;
 
 class ViddlerFinished implements ShouldBroadcast
 {
@@ -15,7 +15,7 @@ class ViddlerFinished implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param  Podcast  $model
+     * @param  Viddler  $model
      * @return void
      */
     public function __construct(Viddler $model)
@@ -26,7 +26,7 @@ class ViddlerFinished implements ShouldBroadcast
     /**
      * Get the channels the event should be broadcast on.
      *
-     * @return array
+     * @return string[]
      */
     public function broadcastOn()
     {
