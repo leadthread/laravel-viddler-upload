@@ -18,7 +18,7 @@ class VideoFile
 
     public function convert()
     {
-        if ($this->model->isNotFinished() && config('viddler.convert.enabled')) {
+        if ($this->model->isNotResolved() && config('viddler.convert.enabled')) {
             // Move to appropriate disk
             $this->model->updateStatusTo('converting');
 
@@ -39,7 +39,7 @@ class VideoFile
 
     public function moveTo($status)
     {
-        if ($this->model->isNotFinished()) {
+        if ($this->model->isNotResolved()) {
             $disk = $this->getDisk();
             $dest = "{$status}/{$this->model->filename}";
 
@@ -85,12 +85,14 @@ class VideoFile
 
     public function removeFile()
     {
-        $disk = $this->getDisk();
-        $dest = "{$this->model->path}/{$this->model->filename}";
+        if($this->model->status !== 'error' && !empty($this->model->disk)) {
+            $disk = $this->getDisk();
+            $dest = "{$this->model->path}/{$this->model->filename}";
 
-        // Delete a prexisting file
-        if ($disk->exists($dest)) {
-            $disk->delete($dest);
+            // Delete a prexisting file
+            if ($disk->exists($dest)) {
+                $disk->delete($dest);
+            }
         }
     }
 

@@ -91,14 +91,14 @@ class Viddler extends Model
         return $this;
     }
 
-    public function isFinished()
+    public function isResolved()
     {
-        return $this->status === "finished";
+        return $this->status === "finished" || $this->status === "error";
     }
 
-    public function isNotFinished()
+    public function isNotResolved()
     {
-        return !$this->isFinished();
+        return !$this->isResolved();
     }
 
     public function setClient(ViddlerClient $client)
