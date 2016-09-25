@@ -40,32 +40,20 @@ class VideoFile
     public function moveTo($status)
     {
         if ($this->model->isNotFinished()) {
-            try {
-                $disk = $this->getDisk();
-                $dest = "{$status}/{$this->model->filename}";
+            $disk = $this->getDisk();
+            $dest = "{$status}/{$this->model->filename}";
 
-                // Delete a prexisting file
-                if ($disk->exists($dest)) {
-                    $disk->delete($dest);
-                }
-
-                // Do the move
-                $disk->move($this->getPathOnDisk(), $dest);
-
-                //Update the Model
-                $this->model->path = $status;
-                $this->model->save();
-            } catch (\League\Flysystem\FileNotFoundException $e) {
-                $this->model->status = "error";
-                $this->model->path = null;
-                $this->model->filename = null;
-                $this->model->disk = null;
-                $this->model->extension = null;
-                $this->model->mime = null;
-                $this->model->save();
-
-                throw $e;
+            // Delete a prexisting file
+            if ($disk->exists($dest)) {
+                $disk->delete($dest);
             }
+
+            // Do the move
+            $disk->move($this->getPathOnDisk(), $dest);
+
+            //Update the Model
+            $this->model->path = $status;
+            $this->model->save();
         }
 
         return $this->model;
@@ -93,6 +81,17 @@ class VideoFile
         }
 
         return $this;
+    }
+
+    public function removeFile()
+    {
+        $disk = $this->getDisk();
+        $dest = "{$this->model->path}/{$this->model->filename}";
+
+        // Delete a prexisting file
+        if ($disk->exists($dest)) {
+            $disk->delete($dest);
+        }
     }
 
     protected function shouldConvert(Viddler $model)

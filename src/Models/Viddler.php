@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Zenapply\Viddler\Upload\Components\ViddlerClient;
 use Zenapply\Viddler\Upload\Components\VideoFile;
 use Zenapply\Viddler\Upload\Events\ViddlerFinished;
+use Zenapply\Viddler\Upload\Events\ViddlerError;
 
 /**
   * @property boolean $uploaded
@@ -43,7 +44,7 @@ class Viddler extends Model
         try {
             $this->file->convert();
         } catch (Exception $e) {
-            $this->updateStatusTo("error");
+            $this->handleError($e);
             throw $e;
         }
         return $this;
@@ -54,7 +55,7 @@ class Viddler extends Model
         try {
             $this->client->upload($this);
         } catch (Exception $e) {
-            $this->updateStatusTo("error");
+            $this->handleError($e);
             throw $e;
         }
         return $this;
@@ -62,7 +63,12 @@ class Viddler extends Model
 
     public function check()
     {
-        $this->client->check($this);
+        try {
+            $this->client->check($this);
+        } catch (Exception $e) {
+            $this->handleError($e);
+            throw $e;
+        }
         return $this;
     }
 
@@ -106,5 +112,20 @@ class Viddler extends Model
             $this->client = new ViddlerClient();
         }
         return $this->client;
+    }
+
+    protected function handleError(Exception $e)
+    {
+        $this->file->removeFile();
+
+        $this->status = "error";
+        $this->path = null;
+        $this->filename = null;
+        $this->disk = null;
+        $this->extension = null;
+        $this->mime = null;
+        $this->save();
+
+        event(new ViddlerError($this, $e->getMessage()));
     }
 }
