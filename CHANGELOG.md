@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.1.3
+- Fixed Exception not found error
+
 ### 3.1.2
 - Properly handles file not found errors
 

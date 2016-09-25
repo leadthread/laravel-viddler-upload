@@ -2,7 +2,7 @@
 
 namespace Zenapply\Viddler\Upload\Components;
 
-use Zenapply\Viddler\Upload\Exceptions\VideoConversionFailedException;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerVideoConversionFailedException;
 use Zenapply\Viddler\Upload\Models\Viddler;
 use Storage;
 use File;
@@ -89,7 +89,7 @@ class VideoFile
             $this->model->filename = end($parts);
             $this->model->updateStatusTo('converted');
         } else {
-            throw new VideoConversionFailedException(implode(PHP_EOL, $output));
+            throw new ViddlerVideoConversionFailedException(implode(PHP_EOL, $output));
         }
 
         return $this;
