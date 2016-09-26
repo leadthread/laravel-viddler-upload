@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.1.7
+- Added a default message for when the file is not valid
+
 ### 3.1.6
 - It will now throw an Exception when the file fails to upload
 

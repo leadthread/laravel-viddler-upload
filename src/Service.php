@@ -34,8 +34,6 @@ class Service
     public function create(UploadedFile $file, $title)
     {
         if ($file->isValid()) {
-
-            
             //Check file type
             $ok = $this->isMimeSupported($file->getMimeType());
 
@@ -71,7 +69,7 @@ class Service
                 throw new ViddlerIncorrectVideoTypeException(implode(" ", $msg));
             }
         } else {
-            throw new ViddlerUploadFailedException;
+            throw new ViddlerUploadFailedException("Upload Failed");
         }
     }
 
