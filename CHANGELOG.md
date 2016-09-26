@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.1.8
+- Fixed Exception in VideoFile class
+
 ### 3.1.7
 - Added a default message for when the file is not valid
 

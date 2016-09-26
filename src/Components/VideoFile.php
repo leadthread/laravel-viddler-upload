@@ -30,7 +30,7 @@ class VideoFile
                         $this->convertToMp4();
                         break;
                     default:
-                        throw new VideoConversionFailedException("{$output} is not a supported output type.");
+                        throw new ViddlerVideoConversionFailedException("{$output} is not a supported output type.");
                 }
             }
         }
