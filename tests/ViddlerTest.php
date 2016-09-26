@@ -7,6 +7,7 @@ use Storage;
 use Exception;
 use Viddler as ViddlerFacade;
 use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerUploadFailedException;
 use Zenapply\Viddler\Upload\Models\Viddler;
 use Zenapply\Viddler\Upload\Service;
 use Zenapply\Viddler\Upload\Tests\Mocks\ViddlerClientMock;
@@ -124,7 +125,15 @@ class ViddlerTest extends TestCase
     {
         $this->setExpectedException(ViddlerIncorrectVideoTypeException::class);
         $service = $this->getServiceWithMockedClient();
-        $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt");
+        $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt", null, null, null, true);
+        $model = $service->create($file, "This is a test video");
+    }
+
+    public function testItFailsWhenUploadingAnInvalidFile()
+    {
+        $this->setExpectedException(ViddlerUploadFailedException::class);
+        $service = $this->getServiceWithMockedClient();
+        $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
         $model = $service->create($file, "This is a test video");
     }
 
@@ -146,7 +155,7 @@ class ViddlerTest extends TestCase
             $client = new ViddlerClientMock();
         }
 
-        $file = new UploadedFile(__DIR__."/files/".$filename, $filename);
+        $file = new UploadedFile(__DIR__."/files/".$filename, $filename, null, null, null, true);
         $model = ViddlerFacade::create($file, $title);
         $model->setClient($client);
         $model->convert();

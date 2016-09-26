@@ -7,6 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Storage;
 use Zenapply\Viddler\Upload\Components\ViddlerClient;
 use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
+use Zenapply\Viddler\Upload\Exceptions\ViddlerUploadFailedException;
 use Zenapply\Viddler\Upload\Jobs\ProcessVideoJob;
 use Zenapply\Viddler\Upload\Models\Viddler;
 
@@ -32,39 +33,45 @@ class Service
      */
     public function create(UploadedFile $file, $title)
     {
-        //Check file type
-        $ok = $this->isMimeSupported($file->getMimeType());
+        if ($file->isValid()) {
 
-        if ($ok === true) {
-            //Store the file
-            $filename = $file->hashName();
-            $disk = Storage::disk(config('viddler.disk'));
-            $contents = file_get_contents($file->getRealPath());
-            $disk->put("new/".$filename, $contents);
-
-            $class = config('viddler.model');
             
-            $video = new $class([
-                'disk' => config('viddler.disk'),
-                'path' => 'new',
-                'filename' => $filename,
-                'title' => $title,
-                'status' => 'new',
-                'mime' => $file->getMimeType(),
-                'extension' => $file->extension(),
-            ]);
-            $video->save();
+            //Check file type
+            $ok = $this->isMimeSupported($file->getMimeType());
 
-            //Done
-            return $video;
-        } else {
-            $msg = [];
-            $msg[] = "Incorrect file type!";
-            if (is_object($file)) {
-                $msg[] = $file->getClientOriginalExtension();
-                $msg[] = "(".$file->getMimeType().")";
+            if ($ok === true) {
+                //Store the file
+                $filename = $file->hashName();
+                $disk = Storage::disk(config('viddler.disk'));
+                $contents = file_get_contents($file->getRealPath());
+                $disk->put("new/".$filename, $contents);
+
+                $class = config('viddler.model');
+                
+                $video = new $class([
+                    'disk' => config('viddler.disk'),
+                    'path' => 'new',
+                    'filename' => $filename,
+                    'title' => $title,
+                    'status' => 'new',
+                    'mime' => $file->getMimeType(),
+                    'extension' => $file->extension(),
+                ]);
+                $video->save();
+
+                //Done
+                return $video;
+            } else {
+                $msg = [];
+                $msg[] = "Incorrect file type!";
+                if (is_object($file)) {
+                    $msg[] = $file->getClientOriginalExtension();
+                    $msg[] = "(".$file->getMimeType().")";
+                }
+                throw new ViddlerIncorrectVideoTypeException(implode(" ", $msg));
             }
-            throw new ViddlerIncorrectVideoTypeException(implode(" ", $msg));
+        } else {
+            throw new ViddlerUploadFailedException;
         }
     }
 
