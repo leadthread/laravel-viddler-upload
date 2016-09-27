@@ -17,6 +17,7 @@ class ViddlerError implements ShouldBroadcast
      * Create a new event instance.
      *
      * @param  Viddler  $model
+     * @param string $error
      * @return void
      */
     public function __construct(Viddler $model, $error)
