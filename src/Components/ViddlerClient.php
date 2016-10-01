@@ -5,6 +5,7 @@ namespace Zenapply\Viddler\Upload\Components;
 use Zenapply\Viddler\Api\Exceptions\ViddlerException;
 use Zenapply\Viddler\Api\Viddler as ViddlerV2;
 use Zenapply\Viddler\Upload\Models\Viddler;
+use Zenapply\Viddler\Upload\Events\ViddlerProgress;
 
 class ViddlerClient
 {
@@ -75,6 +76,8 @@ class ViddlerClient
 
                 $progress360p = $files->sum('encoding_progress')/$files->count();
 
+                $oldProgress = $model->encoding_progress;
+
                 $model->encoding_progress = round(max($progress360p, $progressAll));
 
                 if ($model->encoding_progress == 100) {
@@ -82,6 +85,10 @@ class ViddlerClient
                     $model->updateStatusTo('finished');
                 } else {
                     $model->save();
+
+                    if ($oldProgress !== $model->encoding_progress) {
+                        event(new ViddlerProgress($model));
+                    }
                 }
             }
         }

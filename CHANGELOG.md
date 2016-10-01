@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.2.0
+- Triggers a ViddlerProgress event when the encoding_progress value updates
+
 ### 3.1.8
 - Fixed Exception in VideoFile class
 
