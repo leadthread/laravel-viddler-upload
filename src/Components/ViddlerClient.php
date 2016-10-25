@@ -91,6 +91,9 @@ class ViddlerClient
                     // This method will save the model
                     $model->updateStatusTo('finished');
                 } else {
+                    if ($model->encoding_progress == 100) {
+                        $model->encoding_progress = 99;
+                    }
                     $model->save();
 
                     if ($oldProgress !== $model->encoding_progress) {
