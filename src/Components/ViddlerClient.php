@@ -74,13 +74,20 @@ class ViddlerClient
                     return $file["profile_name"] === "360p";
                 });
 
+                // Status
+                $x = 0;
+                foreach ($files as $file) {
+                    $x += $file['status'] === 'ready' ? 1 : 0;
+                }
+                $status = $x/$files->count() === 1;
+
+                // Progress percentage
                 $progress360p = $files->sum('encoding_progress')/$files->count();
-
                 $oldProgress = $model->encoding_progress;
-
                 $model->encoding_progress = round(max($progress360p, $progressAll));
 
-                if ($model->encoding_progress == 100) {
+                // Check it
+                if ($model->encoding_progress == 100 && $status) {
                     // This method will save the model
                     $model->updateStatusTo('finished');
                 } else {
