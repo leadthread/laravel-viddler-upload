@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.2.2
+- Does not change encoding progress to 100% unless the status is 'ready'
+
+### 3.2.1
+- Checks if the video has a status of 'ready'
+
 ### 3.2.0
 - Triggers a ViddlerProgress event when the encoding_progress value updates
 
