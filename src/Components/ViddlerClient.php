@@ -2,6 +2,7 @@
 
 namespace Zenapply\Viddler\Upload\Components;
 
+use Exception;
 use Zenapply\Viddler\Api\Exceptions\ViddlerException;
 use Zenapply\Viddler\Api\Viddler as ViddlerV2;
 use Zenapply\Viddler\Upload\Models\Viddler;
@@ -27,20 +28,38 @@ class ViddlerClient
 
     protected function executeUpload($endpoint, $postFields)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 0);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-        $response    = curl_exec($ch);
-        $info        = curl_getinfo($ch);
-        $header_size = $info['header_size'];
-        $result      = unserialize(substr($response, $header_size));
-        curl_close($ch);
+        try {
+            $ch = curl_init();
+
+            if (false === $ch) {
+                throw new Exception('failed to initialize');
+            }
+
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            curl_setopt($ch, CURLOPT_NOBODY, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            $response     = curl_exec($ch);
+
+            if (false === $response) {
+                throw new Exception(curl_error($ch), curl_errno($ch));
+            }
+
+            $info         = curl_getinfo($ch);
+            $header_size  = $info['header_size'];
+            $header       = substr($response, 0, $header_size);
+            $result       = unserialize(substr($response, $header_size));
+            curl_close($ch);
+        } catch (Exception $e) {
+            $err = sprintf('Curl failed with error #%d: %s', $e->getCode(), $e->getMessage());
+            throw new Exception($err);
+        }
 
         return $result;
     }

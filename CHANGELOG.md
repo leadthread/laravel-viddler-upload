@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 3.2.3
+- Added CURL error catching
+
 ### 3.2.2
 - Does not change encoding progress to 100% unless the status is 'ready'
 
