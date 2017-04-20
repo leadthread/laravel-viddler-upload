@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 4.0.1
+- Fixed package requirements
+
 ### 4.0.0
 - Changed ownership from zenapply to leadthread
 - Namespace changes

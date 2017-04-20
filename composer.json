@@ -34,7 +34,7 @@
         "illuminate/filesystem": "^5.2.31",
         "illuminate/http": "^5.2.31",
         "league/flysystem": "^1.0.27",
-        "leadthread/php-viddler": "^2.0.0",
+        "leadthread/php-viddler": "^3.0.0",
         "nesbot/carbon": "^1.21"
     },
     "require-dev": {
