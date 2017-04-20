@@ -1,10 +1,10 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Events;
+namespace LeadThread\Viddler\Upload\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
-use Zenapply\Viddler\Upload\Models\Viddler;
+use LeadThread\Viddler\Upload\Models\Viddler;
 
 class ViddlerFinished implements ShouldBroadcast
 {

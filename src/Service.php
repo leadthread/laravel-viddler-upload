@@ -1,15 +1,15 @@
 <?php
 
-namespace Zenapply\Viddler\Upload;
+namespace LeadThread\Viddler\Upload;
 
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Storage;
-use Zenapply\Viddler\Upload\Components\ViddlerClient;
-use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
-use Zenapply\Viddler\Upload\Exceptions\ViddlerUploadFailedException;
-use Zenapply\Viddler\Upload\Jobs\ProcessVideoJob;
-use Zenapply\Viddler\Upload\Models\Viddler;
+use LeadThread\Viddler\Upload\Components\ViddlerClient;
+use LeadThread\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
+use LeadThread\Viddler\Upload\Exceptions\ViddlerUploadFailedException;
+use LeadThread\Viddler\Upload\Jobs\ProcessVideoJob;
+use LeadThread\Viddler\Upload\Models\Viddler;
 
 class Service
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Components;
+namespace LeadThread\Viddler\Upload\Components;
 
 use Exception;
-use Zenapply\Viddler\Api\Exceptions\ViddlerException;
-use Zenapply\Viddler\Api\Viddler as ViddlerV2;
-use Zenapply\Viddler\Upload\Models\Viddler;
-use Zenapply\Viddler\Upload\Events\ViddlerProgress;
+use LeadThread\Viddler\Api\Exceptions\ViddlerException;
+use LeadThread\Viddler\Api\Viddler as ViddlerV2;
+use LeadThread\Viddler\Upload\Models\Viddler;
+use LeadThread\Viddler\Upload\Events\ViddlerProgress;
 
 class ViddlerClient
 {

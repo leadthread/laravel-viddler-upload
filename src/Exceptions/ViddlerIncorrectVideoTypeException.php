@@ -1,8 +1,8 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Exceptions;
+namespace LeadThread\Viddler\Upload\Exceptions;
 
-use Zenapply\Viddler\Api\Exceptions\ViddlerException;
+use LeadThread\Viddler\Api\Exceptions\ViddlerException;
 
 class ViddlerIncorrectVideoTypeException extends ViddlerException
 {

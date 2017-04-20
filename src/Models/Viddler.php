@@ -1,13 +1,13 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Models;
+namespace LeadThread\Viddler\Upload\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Zenapply\Viddler\Upload\Components\ViddlerClient;
-use Zenapply\Viddler\Upload\Components\VideoFile;
-use Zenapply\Viddler\Upload\Events\ViddlerFinished;
-use Zenapply\Viddler\Upload\Events\ViddlerError;
+use LeadThread\Viddler\Upload\Components\ViddlerClient;
+use LeadThread\Viddler\Upload\Components\VideoFile;
+use LeadThread\Viddler\Upload\Events\ViddlerFinished;
+use LeadThread\Viddler\Upload\Events\ViddlerError;
 
 /**
   * @property boolean $uploaded

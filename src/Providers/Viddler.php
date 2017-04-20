@@ -1,9 +1,9 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Providers;
+namespace LeadThread\Viddler\Upload\Providers;
 
 use Illuminate\Support\ServiceProvider as Provider;
-use Zenapply\Viddler\Upload\Service;
+use LeadThread\Viddler\Upload\Service;
 
 class Viddler extends Provider
 {

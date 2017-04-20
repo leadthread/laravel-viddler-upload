@@ -1,8 +1,8 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Tests\Mocks;
+namespace LeadThread\Viddler\Upload\Tests\Mocks;
 
-use Zenapply\Viddler\Upload\Components\ViddlerClient;
+use LeadThread\Viddler\Upload\Components\ViddlerClient;
 
 class ViddlerClientMockThrowsExceptions extends ViddlerClient
 {

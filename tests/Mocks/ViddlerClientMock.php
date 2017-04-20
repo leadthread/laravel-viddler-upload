@@ -1,9 +1,9 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Tests\Mocks;
+namespace LeadThread\Viddler\Upload\Tests\Mocks;
 
-use Zenapply\Viddler\Upload\Models\Viddler;
-use Zenapply\Viddler\Upload\Components\ViddlerClient;
+use LeadThread\Viddler\Upload\Models\Viddler;
+use LeadThread\Viddler\Upload\Components\ViddlerClient;
 
 class ViddlerClientMock extends ViddlerClient
 {

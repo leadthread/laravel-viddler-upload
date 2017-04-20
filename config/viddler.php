@@ -18,9 +18,9 @@ return [
 
     /**
      * The Eloquent Model to use
-     * (Must extend \Zenapply\Viddler\Upload\Models\Viddler)
+     * (Must extend \LeadThread\Viddler\Upload\Models\Viddler)
      */
-    "model" => \Zenapply\Viddler\Upload\Models\Viddler::class,
+    "model" => \LeadThread\Viddler\Upload\Models\Viddler::class,
 
     /**
      * The storage disk to use.

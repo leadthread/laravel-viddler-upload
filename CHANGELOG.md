@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 4.0.0
+- Changed ownership from zenapply to leadthread
+- Namespace changes
+
 ### 3.2.3
 - Added CURL error catching
 
@@ -72,7 +76,7 @@ All notable changes to `laravel-viddler-upload` will be documented in this file.
 - Fixed migrations not publishing
 
 ### 1.0.1
-- Updated to use zenapply/php-viddler instead of viddler/phpviddler
+- Updated to use leadthread/php-viddler instead of viddler/phpviddler
 
 ### 1.0.0
 - Initial release and connected with packagist

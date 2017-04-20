@@ -1,17 +1,17 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Tests;
+namespace LeadThread\Viddler\Upload\Tests;
 
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Exception;
 use Viddler as ViddlerFacade;
-use Zenapply\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
-use Zenapply\Viddler\Upload\Exceptions\ViddlerUploadFailedException;
-use Zenapply\Viddler\Upload\Models\Viddler;
-use Zenapply\Viddler\Upload\Service;
-use Zenapply\Viddler\Upload\Tests\Mocks\ViddlerClientMock;
-use Zenapply\Viddler\Upload\Tests\Mocks\ViddlerClientMockThrowsExceptions;
+use LeadThread\Viddler\Upload\Exceptions\ViddlerIncorrectVideoTypeException;
+use LeadThread\Viddler\Upload\Exceptions\ViddlerUploadFailedException;
+use LeadThread\Viddler\Upload\Models\Viddler;
+use LeadThread\Viddler\Upload\Service;
+use LeadThread\Viddler\Upload\Tests\Mocks\ViddlerClientMock;
+use LeadThread\Viddler\Upload\Tests\Mocks\ViddlerClientMockThrowsExceptions;
 
 class ViddlerTest extends TestCase
 {

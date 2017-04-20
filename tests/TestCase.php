@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenapply\Viddler\Upload\Tests;
+namespace LeadThread\Viddler\Upload\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
 use Storage;
@@ -25,7 +25,7 @@ class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        return ['Zenapply\Viddler\Upload\Providers\Viddler'];
+        return ['LeadThread\Viddler\Upload\Providers\Viddler'];
     }
 
     /**
@@ -34,7 +34,7 @@ class TestCase extends Orchestra
     protected function getPackageAliases($app)
     {
         return [
-            'Viddler' => 'Zenapply\Viddler\Upload\Facades\Viddler'
+            'Viddler' => 'LeadThread\Viddler\Upload\Facades\Viddler'
         ];
     }
 
@@ -80,7 +80,7 @@ class TestCase extends Orchestra
 
             "table" => "viddler",
 
-            "model" => \Zenapply\Viddler\Upload\Models\Viddler::class,
+            "model" => \LeadThread\Viddler\Upload\Models\Viddler::class,
 
             "disk" => "default",
 

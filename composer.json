@@ -1,5 +1,5 @@
 {
-    "name": "zenapply/laravel-viddler-upload",
+    "name": "leadthread/laravel-viddler-upload",
     "type": "library",
     "authors": [
         {
@@ -13,18 +13,18 @@
         "viddler",
         "video",
         "tylercd100",
-        "zenapply"
+        "leadthread"
     ],
-    "homepage": "https://github.com/zenapply/laravel-viddler-upload",
+    "homepage": "https://github.com/leadthread/laravel-viddler-upload",
     "license": "MIT",  
     "autoload":{
         "psr-4":{
-            "Zenapply\\Viddler\\Upload\\":"src/"
+            "LeadThread\\Viddler\\Upload\\":"src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zenapply\\Viddler\\Upload\\Tests\\": "tests/"
+            "LeadThread\\Viddler\\Upload\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
@@ -34,7 +34,7 @@
         "illuminate/filesystem": "^5.2.31",
         "illuminate/http": "^5.2.31",
         "league/flysystem": "^1.0.27",
-        "zenapply/php-viddler": "^2.0.0",
+        "leadthread/php-viddler": "^2.0.0",
         "nesbot/carbon": "^1.21"
     },
     "require-dev": {
