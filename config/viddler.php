@@ -14,7 +14,7 @@ return [
     /**
      * Log the steps of the video
      */
-    "log" => true,
+    "log" => false,
 
     /**
      * The table to use.

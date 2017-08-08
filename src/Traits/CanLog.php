@@ -1,6 +1,6 @@
 <?php
 
-namespace LeadThread\Viddler\Upload\Components;
+namespace LeadThread\Viddler\Upload\Traits;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Config;
  * @Author: Tyler Arbon
  * @Date:   2017-08-08 11:20:40
  * @Last Modified by:   Tyler Arbon
- * @Last Modified time: 2017-08-08 11:32:52
+ * @Last Modified time: 2017-08-08 12:09:32
  */
-class Logger
+trait CanLog
 {
     /**
      * System is unusable.
@@ -21,7 +21,7 @@ class Logger
      *
      * @return void
      */
-    public static function emergency($message, array $context = array())
+    public function emergency($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::emergency($message, $context);
@@ -39,7 +39,7 @@ class Logger
      *
      * @return void
      */
-    public static function alert($message, array $context = array())
+    public function alert($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::alert($message, $context);
@@ -56,7 +56,7 @@ class Logger
      *
      * @return void
      */
-    public static function critical($message, array $context = array())
+    public function critical($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::critical($message, $context);
@@ -72,7 +72,7 @@ class Logger
      *
      * @return void
      */
-    public static function error($message, array $context = array())
+    public function error($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::error($message, $context);
@@ -90,7 +90,7 @@ class Logger
      *
      * @return void
      */
-    public static function warning($message, array $context = array())
+    public function warning($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::warning($message, $context);
@@ -105,7 +105,7 @@ class Logger
      *
      * @return void
      */
-    public static function notice($message, array $context = array())
+    public function notice($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::notice($message, $context);
@@ -122,7 +122,7 @@ class Logger
      *
      * @return void
      */
-    public static function info($message, array $context = array())
+    public function info($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::info($message, $context);
@@ -137,7 +137,7 @@ class Logger
      *
      * @return void
      */
-    public static function debug($message, array $context = array())
+    public function debug($message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::debug($message, $context);
@@ -153,7 +153,7 @@ class Logger
      *
      * @return void
      */
-    public static function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = array())
     {
         if (Config::get("viddler.log", false)) {
             Log::log($level, $message, $context);

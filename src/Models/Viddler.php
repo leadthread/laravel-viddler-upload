@@ -4,7 +4,7 @@ namespace LeadThread\Viddler\Upload\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use LeadThread\Viddler\Upload\Components\Logger;
+use LeadThread\Viddler\Upload\Traits\CanLog;
 use LeadThread\Viddler\Upload\Components\ViddlerClient;
 use LeadThread\Viddler\Upload\Components\VideoFile;
 use LeadThread\Viddler\Upload\Events\ViddlerError;
@@ -132,7 +132,7 @@ class Viddler extends Model
         $this->mime = null;
         $this->save();
 
-        Logger::error("{$this} Error Occurred! ".$e->getMessage());
+        $this->error("{$this} Error Occurred! ".$e->getMessage());
 
         event(new ViddlerError($this, $e->getMessage()));
     }

@@ -3,6 +3,7 @@
 namespace LeadThread\Viddler\Upload\Components;
 
 use Exception;
+use LeadThread\Viddler\Upload\Traits\CanLog;
 use LeadThread\Viddler\Api\Exceptions\ViddlerException;
 use LeadThread\Viddler\Api\Viddler as ViddlerV2;
 use LeadThread\Viddler\Upload\Models\Viddler;
@@ -10,6 +11,8 @@ use LeadThread\Viddler\Upload\Events\ViddlerProgress;
 
 class ViddlerClient
 {
+    use CanLog;
+    
     protected $client;
     protected $session_id;
     protected $record_token;
@@ -80,7 +83,7 @@ class ViddlerClient
     public function check(Viddler $model)
     {
         if ($model->status === "encoding") {
-            Logger::info("{$model} is checking encoding status on viddler.com");
+            $this->info("{$model} is checking encoding status on viddler.com");
             $response = $this->executeCheck($model);
             
             $files = collect($response["list_result"]["video_encoding_list"][0]["video_file_encoding_list"]);
@@ -117,7 +120,7 @@ class ViddlerClient
                     $model->save();
 
                     if ($oldProgress !== $model->encoding_progress) {
-                        Logger::info("{$model}'s encoding progress: {$model->encoding_progress}");
+                        $this->info("{$model}'s encoding progress: {$model->encoding_progress}");
                         event(new ViddlerProgress($model));
                     }
                 }
@@ -129,7 +132,7 @@ class ViddlerClient
 
     public function upload(Viddler $model)
     {
-        Logger::info("{$model} is uploading to viddler.com");
+        $this->info("{$model} is uploading to viddler.com");
         //Fire Event
         $model->updateStatusTo('uploading');
 
