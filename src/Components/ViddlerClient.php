@@ -80,6 +80,7 @@ class ViddlerClient
     public function check(Viddler $model)
     {
         if ($model->status === "encoding") {
+            Logger::info("{$model} is checking encoding status on viddler.com");
             $response = $this->executeCheck($model);
             
             $files = collect($response["list_result"]["video_encoding_list"][0]["video_file_encoding_list"]);
@@ -116,6 +117,7 @@ class ViddlerClient
                     $model->save();
 
                     if ($oldProgress !== $model->encoding_progress) {
+                        Logger::info("{$model}'s encoding progress: {$model->encoding_progress}");
                         event(new ViddlerProgress($model));
                     }
                 }
@@ -127,6 +129,7 @@ class ViddlerClient
 
     public function upload(Viddler $model)
     {
+        Logger::info("{$model} is uploading to viddler.com");
         //Fire Event
         $model->updateStatusTo('uploading');
 

@@ -12,6 +12,11 @@ return [
     ],
 
     /**
+     * Log the steps of the video
+     */
+    "log" => true,
+
+    /**
      * The table to use.
      */
     "table" => "viddler",

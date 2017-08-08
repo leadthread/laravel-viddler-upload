@@ -18,6 +18,7 @@ class VideoFile
 
     public function convert()
     {
+        Logger::info("{$this->model}'s video file is starting convert");
         if ($this->model->isNotResolved() && config('viddler.convert.enabled')) {
             // Move to appropriate disk
             $this->model->updateStatusTo('converting');
@@ -39,6 +40,7 @@ class VideoFile
 
     public function moveTo($status)
     {
+        Logger::info("{$this->model}'s video file is moving to {$status}");
         if ($this->model->isNotResolved()) {
             $disk = $this->getDisk();
             $dest = "{$status}/{$this->model->filename}";
@@ -61,6 +63,7 @@ class VideoFile
 
     protected function convertToMp4()
     {
+        Logger::info("{$this->model}'s video file is coverting to mp4");
         $disk = $this->getDisk();
         $pathDisk = $this->getPathToDisk();
         $pathOld = $this->getPathOnDisk();
@@ -85,7 +88,8 @@ class VideoFile
 
     public function removeFile()
     {
-        if($this->model->status !== 'error' && !empty($this->model->disk)) {
+        if ($this->model->status !== 'error' && !empty($this->model->disk)) {
+            Logger::info("{$this->model}'s video file is being removed");
             $disk = $this->getDisk();
             $dest = "{$this->model->path}/{$this->model->filename}";
 
