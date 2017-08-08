@@ -23,6 +23,8 @@ use LeadThread\Viddler\Upload\Events\ViddlerFinished;
   */
 class Viddler extends Model
 {
+    use CanLog;
+    
     protected $guarded = ['id'];
     protected $table;
     protected $client;
