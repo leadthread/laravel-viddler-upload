@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 4.1.0
+- Added optional logging for debugging
+
 ### 4.0.1
 - Fixed package requirements
 

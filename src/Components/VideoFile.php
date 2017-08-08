@@ -2,6 +2,7 @@
 
 namespace LeadThread\Viddler\Upload\Components;
 
+use LeadThread\Viddler\Upload\Traits\CanLog;
 use LeadThread\Viddler\Upload\Exceptions\ViddlerVideoConversionFailedException;
 use LeadThread\Viddler\Upload\Models\Viddler;
 use Storage;
@@ -9,6 +10,8 @@ use File;
 
 class VideoFile
 {
+    use CanLog;
+
     protected $model;
 
     public function __construct(Viddler &$model)
@@ -18,6 +21,7 @@ class VideoFile
 
     public function convert()
     {
+        $this->info("{$this->model}'s video file is starting convert");
         if ($this->model->isNotResolved() && config('viddler.convert.enabled')) {
             // Move to appropriate disk
             $this->model->updateStatusTo('converting');
@@ -39,6 +43,7 @@ class VideoFile
 
     public function moveTo($status)
     {
+        $this->info("{$this->model}'s video file is moving to {$status}");
         if ($this->model->isNotResolved()) {
             $disk = $this->getDisk();
             $dest = "{$status}/{$this->model->filename}";
@@ -61,6 +66,7 @@ class VideoFile
 
     protected function convertToMp4()
     {
+        $this->info("{$this->model}'s video file is coverting to mp4");
         $disk = $this->getDisk();
         $pathDisk = $this->getPathToDisk();
         $pathOld = $this->getPathOnDisk();
@@ -85,7 +91,8 @@ class VideoFile
 
     public function removeFile()
     {
-        if($this->model->status !== 'error' && !empty($this->model->disk)) {
+        if ($this->model->status !== 'error' && !empty($this->model->disk)) {
+            $this->info("{$this->model}'s video file is being removed");
             $disk = $this->getDisk();
             $dest = "{$this->model->path}/{$this->model->filename}";
 

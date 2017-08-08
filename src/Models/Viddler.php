@@ -4,10 +4,11 @@ namespace LeadThread\Viddler\Upload\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use LeadThread\Viddler\Upload\Traits\CanLog;
 use LeadThread\Viddler\Upload\Components\ViddlerClient;
 use LeadThread\Viddler\Upload\Components\VideoFile;
-use LeadThread\Viddler\Upload\Events\ViddlerFinished;
 use LeadThread\Viddler\Upload\Events\ViddlerError;
+use LeadThread\Viddler\Upload\Events\ViddlerFinished;
 
 /**
   * @property boolean $uploaded
@@ -22,6 +23,8 @@ use LeadThread\Viddler\Upload\Events\ViddlerError;
   */
 class Viddler extends Model
 {
+    use CanLog;
+    
     protected $guarded = ['id'];
     protected $table;
     protected $client;
@@ -37,6 +40,11 @@ class Viddler extends Model
         $this->file = new VideoFile($this);
 
         $this->client = $this->getClient();
+    }
+
+    public function __toString()
+    {
+        return "Viddler #{$this->id}";
     }
 
     public function convert()
@@ -125,6 +133,8 @@ class Viddler extends Model
         $this->extension = null;
         $this->mime = null;
         $this->save();
+
+        $this->error("{$this} Error Occurred! ".$e->getMessage());
 
         event(new ViddlerError($this, $e->getMessage()));
     }
