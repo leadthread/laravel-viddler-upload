@@ -40,7 +40,7 @@ class ViddlerTest extends TestCase
 
     public function testFileErrorsCorrectly()
     {
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
 
         //Create the file
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
@@ -123,7 +123,7 @@ class ViddlerTest extends TestCase
 
     public function testItFailsWhenUploadingANonVideoFile()
     {
-        $this->setExpectedException(ViddlerIncorrectVideoTypeException::class);
+        $this->expectException(ViddlerIncorrectVideoTypeException::class);
         $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/sample.txt", "sample.txt", null, null, null, true);
         $model = $service->create($file, "This is a test video");
@@ -131,7 +131,7 @@ class ViddlerTest extends TestCase
 
     public function testItFailsWhenUploadingAnInvalidFile()
     {
-        $this->setExpectedException(ViddlerUploadFailedException::class);
+        $this->expectException(ViddlerUploadFailedException::class);
         $service = $this->getServiceWithMockedClient();
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
         $model = $service->create($file, "This is a test video");
