@@ -13,11 +13,6 @@ class TestCase extends Orchestra
     public function setUp()
     {
         parent::setUp();
-
-        $this->loadMigrationsFrom([
-            '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../migrations'),
-        ]);
     }
 
     public function tearDown()
@@ -56,9 +51,13 @@ class TestCase extends Orchestra
         $version = explode(".", $version);
 
         if (intval($version[0]) >= 5 && intval($version[1]) >= 3) {
-            $this->artisan('migrate:reset');
+            $this->artisan('migrate:reset', [
+                '--database' => 'testbench',
+            ]);
         } else {
-            $this->artisan('migrate:reset');
+            $this->artisan('migrate:reset', [
+                '--database' => 'testbench',
+            ]);
         }
     }
 
