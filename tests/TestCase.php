@@ -13,6 +13,8 @@ class TestCase extends Orchestra
     public function setUp()
     {
         parent::setUp();
+
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
     }
 
     public function tearDown()
