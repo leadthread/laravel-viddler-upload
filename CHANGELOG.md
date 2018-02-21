@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 5.0.0
+- Had to change the way migrations work. I dont want to break migrations accidentally.
+
 ### 4.1.0
 - Added optional logging for debugging
 
