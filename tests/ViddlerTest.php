@@ -76,19 +76,24 @@ class ViddlerTest extends TestCase
         }
     }
 
+    /**
+     * This test is supposed to check to see if there is an existing
+     * video file and just use that one instead of saving the new one
+     */
     public function testUploadingAVideoThatHasAPreExistingFileOnTheServer()
     {
         //Create the file
         $file = new UploadedFile(__DIR__."/files/small.mp4", "small.mp4");
 
-        //Store a duplicate
+        //Store a duplicate before hand
         $filename = $file->hashName();
         $disk = Storage::disk(config('viddler.disk'));
         $contents = file_get_contents($file->getRealPath());
         $disk->put("encoding/".$filename, $contents);
 
-        //Use the service
+        //Use the service. This should just use the file that we just put in the encoding directory
         $model = $this->uploadFile("small.mp4", "This is a test video");
+        $this->assertTrue(true); // This whole test should not have thrown an exception.
     }
 
     public function testItCreatesAnInstanceOfViddler()
