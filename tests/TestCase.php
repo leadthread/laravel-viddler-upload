@@ -42,7 +42,6 @@ class TestCase extends Orchestra
     {
         $this->artisan('migrate', [
             '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../migrations'),
         ]);
     }
 
@@ -54,11 +53,10 @@ class TestCase extends Orchestra
         if (intval($version[0]) >= 5 && intval($version[1]) >= 3) {
             $this->artisan('migrate:reset', [
                 '--database' => 'testbench',
-                '--realpath' => realpath(__DIR__.'/../migrations'),
             ]);
         } else {
             $this->artisan('migrate:reset', [
-                '--database' => 'testbench'
+                '--database' => 'testbench',
             ]);
         }
     }

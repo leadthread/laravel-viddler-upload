@@ -26,12 +26,12 @@ and this to the `aliases` array in `config/app.php`
 "Viddler" => LeadThread\Viddler\Upload\Facades\Viddler::class,
 ```
 
-Then you will need to run these commands in the terminal in order to copy the config and migration files
+Then you will need to run these commands in the terminal in order to copy the config file
 ```bash
 php artisan vendor:publish --provider="LeadThread\Viddler\Upload\Providers\Viddler"
 ```
 
-Before you run the migration you may want to take a look at `config/viddler.php` and change the `table` property to a table name that you would like to use. After that run the migration 
+This package includes a migration file. Before you run the migration you may want to take a look at `config/viddler.php` and change the `table` property to a table name that you would like to use. After that run the migration 
 ```bash
 php artisan migrate
 ```

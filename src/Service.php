@@ -41,8 +41,7 @@ class Service
                 //Store the file
                 $filename = $file->hashName();
                 $disk = Storage::disk(config('viddler.disk'));
-                $contents = file_get_contents($file->getRealPath());
-                $disk->put("new/".$filename, $contents);
+                $disk->putFileAs("new", $file, $filename);
 
                 $class = config('viddler.model');
                 
