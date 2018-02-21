@@ -44,7 +44,6 @@ class TestCase extends Orchestra
     {
         $this->artisan('migrate', [
             '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../migrations'),
         ]);
     }
 
