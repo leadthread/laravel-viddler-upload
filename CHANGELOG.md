@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-viddler-upload` will be documented in this file.
 
+### 5.0.2
+- Changed video conversion parameters again
+
 ### 5.0.1
 - Changed video conversion parameters
 
