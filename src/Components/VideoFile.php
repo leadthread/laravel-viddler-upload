@@ -73,7 +73,7 @@ class VideoFile
         $pathNew = explode(".", $pathOld)[0].".mp4";
         $exit = 0;
         $output = [];
-        $command = 'ffmpeg -i '.$pathDisk.$pathOld.' -c copy '.$pathDisk.$pathNew.' 2>&1';
+        $command = 'ffmpeg -i '.$pathDisk.$pathOld.' -c:a aac -c:v copy '.$pathDisk.$pathNew.' 2>&1';
         exec($command, $output, $exit);
         if ($exit === 0) {
             $parts = explode('/', $pathNew);
