@@ -35,7 +35,7 @@
         "illuminate/http": "^5.5.0",
         "league/flysystem": "^1.0.27",
         "leadthread/php-viddler": "^3.0.0",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^2.54"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
