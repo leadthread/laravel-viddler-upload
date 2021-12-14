@@ -15,14 +15,14 @@ use LeadThread\Viddler\Upload\Tests\Mocks\ViddlerClientMockThrowsExceptions;
 
 class ViddlerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->flushTestStorageDisks();
         $this->migrate();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->migrateReset();
         parent::tearDown();
